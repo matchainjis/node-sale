@@ -6,6 +6,9 @@ export const globalTranslation = {
     common: {
       space: ' ',
       colon: ':',
+      connect: 'Connect',
+      disconnect: 'Disconnect',
+      connectWallet: 'Connect Wallet',
     },
     unit: {
       $: '${value}',

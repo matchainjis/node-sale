@@ -2,7 +2,7 @@ import { forwardRef, useMemo } from 'react';
 import { IconButton, Stack, Typography, useTheme } from '@mui/material';
 import { CustomContentProps, SnackbarKey } from 'notistack';
 
-import { ReactComponent as CloseIcon } from 'modules/common/icons/close-icon.svg';
+import CloseIcon from 'modules/common/icons/close-icon.svg?react';
 
 export const Notification = forwardRef<
   HTMLDivElement,

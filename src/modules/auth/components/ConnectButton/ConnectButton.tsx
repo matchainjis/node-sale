@@ -1,7 +1,7 @@
 import { ReactElement, useMemo } from 'react';
 import { EWalletId, getWalletIcon } from '@ankr.com/provider';
 import { getWalletName } from '@ankr.com/provider/src/utils/getWalletName';
-import { Box, Button, ButtonProps, Tooltip } from '@mui/material';
+import { Box, Button, ButtonProps, Tooltip, Typography } from '@mui/material';
 
 import { useStyles } from './useStyles';
 
@@ -56,7 +56,9 @@ export function ConnectButton({
           <img alt="" className={classes.icon} src={getWalletIcon(walletId)} />
         </Box>
 
-        <span>{getWalletName(walletId)}</span>
+        <Typography fontWeight={600} variant="body1">
+          {getWalletName(walletId)}
+        </Typography>
       </Button>
     </Tooltip>
   );

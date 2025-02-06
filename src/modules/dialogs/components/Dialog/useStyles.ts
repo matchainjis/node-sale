@@ -1,29 +1,28 @@
-import { alpha, backdropClasses } from '@mui/material';
+import { backdropClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 export const useStyles = makeStyles()(theme => ({
   root: {
     [`.${backdropClasses.root}`]: {
-      backdropFilter: 'blur(45px)',
+      background: 'transparent',
+      backdropFilter: 'blur(10px)',
     },
   },
 
   paper: {
     width: '100%',
-    maxWidth: 700,
-    padding: theme.spacing(7.5),
+    maxWidth: 484,
+    padding: theme.spacing(4.5, 6),
 
-    boxShadow: `0px 5px 25px 0px ${alpha(
-      theme.palette.grey[900],
-      0.1,
-    )}, 0px 10px 50px 0px ${alpha(theme.palette.grey[900], 0.1)}`,
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(4.5, 3),
+    },
   },
 
   button: {
     position: 'absolute',
-    top: theme.spacing(6),
-    right: theme.spacing(6),
-
-    backgroundColor: theme.palette.background.default,
+    cursor: 'pointer',
+    top: theme.spacing(5),
+    right: theme.spacing(5),
   },
 }));

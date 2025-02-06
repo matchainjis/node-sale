@@ -19,10 +19,7 @@ export default defineConfig(() => ({
     !process.env.DISABLE_ESLINT && eslint({
       include: ['src/**/*.ts', 'src/**/*.tsx'],
     }),
-    svgr({
-      svgrOptions: { exportType: 'named', ref: true, svgo: false, titleProp: true },
-      include: '**/*.svg',
-    }),
+    svgr(),
     tsconfigPaths(),
     react(),
     ViteEjsPlugin(viteConfig => ({

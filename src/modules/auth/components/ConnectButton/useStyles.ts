@@ -1,19 +1,24 @@
+import { alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 export const useStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: theme.spacing(2),
+    justifyContent: 'center',
+    gap: theme.spacing(1),
 
-    height: 54,
+    width: 136,
+    height: 136,
     borderRadius: 16,
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
+    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+    transition: 'all 0.2s ease',
 
     '&&:hover': {
-      boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
+      border: `1px solid ${theme.palette.divider}`,
       backgroundColor: theme.palette.background.default,
     },
   },
@@ -24,6 +29,6 @@ export const useStyles = makeStyles()(theme => ({
     padding: theme.spacing(1),
   },
   icon: {
-    width: 20,
+    width: 32,
   },
 }));

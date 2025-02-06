@@ -1,15 +1,21 @@
-import { ThemeOptions } from '@mui/material';
+import { PaletteMode, ThemeOptions } from '@mui/material';
 import { createTheme as createMuiTheme } from '@mui/material/styles';
-import createPalette from '@mui/material/styles/createPalette';
 import { deepmerge } from '@mui/utils';
+
+import { getMuiButton } from 'modules/themes/components/button';
+import { getMuiMenu } from 'modules/themes/components/menu';
+import { getMuiMenuItem } from 'modules/themes/components/menuItem';
+import { getMuiPaper } from 'modules/themes/components/paper';
+import { getMuiSelect } from 'modules/themes/components/select';
+import { getMuiTypography } from 'modules/themes/components/typography';
 
 import { getMuiCssBaseline } from './components/cssBaseline';
 import { BREAKPOINTS, FONT_FAMILY, SHAPE, SPACING } from './const';
-import { mainPalette } from './palette';
+import { createPalette } from './palette';
 
-export function createMainTheme() {
+export function createMainTheme(mode: PaletteMode = 'dark') {
   const baseTheme = createMuiTheme({
-    palette: createPalette(mainPalette),
+    palette: createPalette(mode),
     spacing: SPACING,
     breakpoints: {
       values: BREAKPOINTS,
@@ -23,6 +29,12 @@ export function createMainTheme() {
   const options: ThemeOptions = {
     components: {
       MuiCssBaseline: getMuiCssBaseline(baseTheme),
+      MuiButton: getMuiButton(baseTheme),
+      MuiSelect: getMuiSelect(baseTheme),
+      MuiTypography: getMuiTypography(baseTheme),
+      MuiPaper: getMuiPaper(baseTheme),
+      MuiMenu: getMuiMenu(),
+      MuiMenuItem: getMuiMenuItem(baseTheme),
     },
   };
 
