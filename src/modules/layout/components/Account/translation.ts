@@ -2,6 +2,7 @@ import { Locale } from 'modules/i18n';
 
 export const translation = {
   [Locale.en]: {
-    title: 'Connect wallet',
+    connect: 'Connect Wallet',
+    disconnect: 'Disconnect',
   },
 };

@@ -2,43 +2,57 @@ import { ReactElement } from 'react';
 import {
   Dialog as MuiDialog,
   DialogProps as MuiDialogProps,
-  IconButton,
+  ThemeProvider,
+  Typography,
 } from '@mui/material';
 import { DialogClasses } from '@mui/material/Dialog/dialogClasses';
 
-import { ReactComponent as CloseIcon } from 'modules/common/icons/close-icon.svg';
+import CloseIcon from 'modules/common/icons/close-icon.svg?react';
+import { createMainTheme } from 'modules/themes/mainTheme';
 
 import { useStyles } from './useStyles';
 
 interface Props extends MuiDialogProps {
+  title?: string;
   onClose?: () => void;
 }
 
 const EMPTY_CLASSES: Partial<DialogClasses> = {};
 
-export function Dialog({ onClose, children, ...props }: Props): ReactElement {
+const lightTheme = createMainTheme('light');
+
+export function Dialog({
+  onClose,
+  title,
+  children,
+  ...props
+}: Props): ReactElement {
   const { classes, cx } = useStyles();
   const propsClasses = props?.classes || EMPTY_CLASSES;
 
   return (
-    <MuiDialog
-      {...props}
-      classes={{
-        ...propsClasses,
-        paper: cx(classes.paper, propsClasses?.paper),
-      }}
-      className={cx(classes.root, props.className)}
-      onClose={onClose}
-    >
-      <IconButton
-        className={classes.button}
-        color="secondary"
-        onClick={onClose}
+    <ThemeProvider theme={lightTheme}>
+      <MuiDialog
+        {...props}
+        classes={{
+          ...propsClasses,
+          paper: cx(classes.paper, propsClasses?.paper),
+        }}
+        className={cx(classes.root, props.className)}
+        onClose={onClose}
       >
-        <CloseIcon />
-      </IconButton>
+        {title && (
+          <Typography textAlign="center" textTransform="uppercase" variant="h2">
+            {title}
+          </Typography>
+        )}
 
-      {children}
-    </MuiDialog>
+        <div className={classes.button} onClick={onClose}>
+          <CloseIcon />
+        </div>
+
+        {children}
+      </MuiDialog>
+    </ThemeProvider>
   );
 }

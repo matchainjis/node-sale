@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { KnownDialogs } from 'modules/dialogs/const/KnownDialogs';
+
 import {
   closeDialog,
   openDialog,
@@ -15,7 +17,7 @@ export interface IUseDialogData<T = void> {
 }
 
 export function useDialog<TContext = void>(
-  modalId: string,
+  modalId: KnownDialogs,
 ): IUseDialogData<TContext> {
   const dispatch = useDispatch();
   const dialogState = useSelector(selectDialogState);

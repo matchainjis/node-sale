@@ -1,7 +1,7 @@
 import { ReactElement, useCallback } from 'react';
 import { EWalletId } from '@ankr.com/provider';
-import { Typography } from '@mui/material';
 
+import { TrustWalletConnectButton } from 'modules/auth/components/TrustWalletConnectButton';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { Dialog } from 'modules/dialogs/components/Dialog';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
@@ -30,21 +30,14 @@ export function WalletsDialog(): ReactElement {
   );
 
   return (
-    <Dialog
-      classes={{ paper: classes.paper }}
-      open={isOpened}
-      onClose={onClose}
-    >
-      <Typography mt={15} variant="h5">
-        {t(keys.title)}
-      </Typography>
-
-      <Typography mt={3} variant="body2">
-        {t(keys.description)}
-      </Typography>
-
+    <Dialog open={isOpened} title={t(keys.title)} onClose={onClose}>
       <div className={classes.wallets}>
         <MetamaskConnectButton disabled={isLoading} onConnect={handleConnect} />
+
+        <TrustWalletConnectButton
+          disabled={isLoading}
+          onConnect={handleConnect}
+        />
 
         <ConnectButton
           disabled={isLoading}

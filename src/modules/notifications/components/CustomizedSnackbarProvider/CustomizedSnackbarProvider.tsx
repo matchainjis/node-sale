@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { closeSnackbar, SnackbarKey, SnackbarProvider } from 'notistack';
 
+import { useStyles } from 'modules/notifications/components/CustomizedSnackbarProvider/useStyles';
+
 import { Notification } from '../Notification';
 import { NotificationClose } from '../NotificationClose';
-import { useSnackbarProviderStyles } from './useSnackbarProviderStyles';
 
 /**
  * Notification provider with custom styles.
@@ -11,7 +12,7 @@ import { useSnackbarProviderStyles } from './useSnackbarProviderStyles';
  * Docs: https://notistack.com/getting-started#usage
  */
 export function CustomizedSnackbarProvider() {
-  const { classes } = useSnackbarProviderStyles();
+  const { classes } = useStyles();
 
   const renderActionSlot = useCallback((key: SnackbarKey) => {
     const handleClick = () => closeSnackbar(key);

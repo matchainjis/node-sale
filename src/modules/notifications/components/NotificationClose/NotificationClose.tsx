@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
 
-import { ReactComponent as CloseIcon } from 'modules/common/icons/close-icon.svg';
+import CloseIcon from 'modules/common/icons/close-icon.svg?react';
 
 import { useNotificationCloseStyles } from './useNotificationCloseStyles';
 
