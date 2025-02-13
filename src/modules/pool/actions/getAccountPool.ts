@@ -25,7 +25,7 @@ export const {
           }),
         };
       },
-      providesTags: [cacheTags.pools],
+      providesTags: [cacheTags.account, cacheTags.pools],
     }),
   }),
 });

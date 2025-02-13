@@ -107,6 +107,30 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
             },
           },
         },
+
+        {
+          props: { variant: 'contained', color: 'primary' },
+          style: {
+            background: `linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
+            color: theme.palette.common.white,
+
+            '&:hover': {
+              background: `linear-gradient(0deg, ${alpha(theme.palette.common.white, 0.15)} 0%, ${alpha(theme.palette.common.white, 0.15)} 100%), linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
+            },
+
+            '&&:active, &&:focus': {
+              background: `linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
+              color: theme.palette.common.white,
+              border: 0,
+              boxShadow: 'none',
+            },
+
+            '&&.Mui-disabled': {
+              background: `linear-gradient(98deg, ${alpha(theme.palette.primary.dark, 0.2)}, ${alpha(theme.palette.primary.main, 0.2)} 100%)`,
+              color: theme.palette.common.white,
+            },
+          },
+        },
       ],
     },
 

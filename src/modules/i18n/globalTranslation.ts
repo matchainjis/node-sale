@@ -6,9 +6,14 @@ export const globalTranslation = {
     common: {
       space: ' ',
       colon: ':',
+      to: 'to',
+      ok: 'ok',
       connect: 'Connect',
       disconnect: 'Disconnect',
       connectWallet: 'Connect Wallet',
+      balance: 'Balance',
+      getMore: 'Get more',
+      max: 'Max',
     },
     unit: {
       $: '${value}',
@@ -17,7 +22,14 @@ export const globalTranslation = {
     },
     tokens: {
       main: 'MAT',
+      chainToken: 'MAT',
     },
     requestError: {},
+    validation: {
+      required: 'This field is required',
+      numberOnly: 'Must be a number',
+      min: 'Minimum amount is {value} {unit}',
+      max: 'Your balance is not sufficient',
+    },
   },
 };

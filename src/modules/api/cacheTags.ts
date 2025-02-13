@@ -4,4 +4,5 @@ export const cacheTags = {
   account: `account-${getUniqueId()}`,
   chainData: `chainData-${getUniqueId()}`,
   pools: `pool-${getUniqueId()}`,
+  allowance: `allowance-${getUniqueId()}`,
 };

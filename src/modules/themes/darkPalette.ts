@@ -25,10 +25,10 @@ export const darkPalette: PaletteOptions = {
   },
 
   error: {
-    main: '#EC5478',
-    dark: '#350C15',
-    light: '#C8294E',
-    contrastText: '#FFFFFF',
+    main: alpha('#FE2368', 0.15),
+    dark: alpha('#FE2368', 0.15),
+    light: alpha('#FE2368', 0.15),
+    contrastText: '#FE2368',
   },
 
   warning: {

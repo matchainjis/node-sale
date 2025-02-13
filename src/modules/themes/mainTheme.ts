@@ -6,11 +6,14 @@ import { deepmerge } from '@mui/utils';
 import { getMuiButton } from 'modules/themes/components/button';
 import { getMuiChip } from 'modules/themes/components/chip';
 import { getMuiContainer } from 'modules/themes/components/container';
+import { getMuiFilledInput } from 'modules/themes/components/filledInput';
+import { getMuiInputLabel } from 'modules/themes/components/inputLabel';
 import { getMuiMenu } from 'modules/themes/components/menu';
 import { getMuiMenuItem } from 'modules/themes/components/menuItem';
 import { getMuiPaper } from 'modules/themes/components/paper';
 import { getMuiSelect } from 'modules/themes/components/select';
 import { getMuiSkeleton } from 'modules/themes/components/skeleton';
+import { getMuiTextField } from 'modules/themes/components/textField';
 import { getMuiTooltip } from 'modules/themes/components/tooltip';
 import { getMuiTypography } from 'modules/themes/components/typography';
 import { darkPalette } from 'modules/themes/darkPalette';
@@ -45,6 +48,9 @@ export function createMainTheme(mode: PaletteMode = 'dark') {
       MuiChip: getMuiChip(baseTheme),
       MuiTooltip: getMuiTooltip(baseTheme),
       MuiSkeleton: getMuiSkeleton(),
+      MuiTextField: getMuiTextField(),
+      MuiInputLabel: getMuiInputLabel(baseTheme),
+      MuiFilledInput: getMuiFilledInput(baseTheme),
     },
   };
 

@@ -16,6 +16,7 @@ export const useStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(4.5, 3),
+      margin: theme.spacing(0, 4),
     },
   },
 
@@ -24,5 +25,9 @@ export const useStyles = makeStyles()(theme => ({
     cursor: 'pointer',
     top: theme.spacing(5),
     right: theme.spacing(5),
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
   },
 }));

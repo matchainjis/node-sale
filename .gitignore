@@ -2,6 +2,7 @@
 
 .idea
 .vscode
+.vite
 
 # dependencies
 node_modules

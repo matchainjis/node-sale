@@ -112,6 +112,7 @@ export function PoolRow({
         align="right"
         className={classes.actions}
         isDelegateOnly={!showDelegated}
+        poolAddress={poolAddress}
       />
     </Table.Row>
   );

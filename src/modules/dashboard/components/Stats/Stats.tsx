@@ -4,7 +4,11 @@ import BigNumber from 'bignumber.js';
 
 import { useGetMainTokenBalanceQuery } from 'modules/api/actions/getMainTokenBalance';
 import { useConnection } from 'modules/auth/hooks/useConnection';
-import { DEFAULT_DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import {
+  BUY_MORE_LINK,
+  DEFAULT_DECIMAL_PLACES,
+  ZERO,
+} from 'modules/common/const';
 import { globalTranslation, mergeTranslations } from 'modules/i18n';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { useGetAccountTotalStaked } from 'modules/pool/hooks/useGetAccountTotalStaked';
@@ -15,7 +19,6 @@ import { translation } from './translation';
 import { useStyles } from './useStyles';
 
 const USD_AMOUNT_MOCK: BigNumber | undefined = undefined;
-const BUY_MORE_LINK = '';
 
 const mergedTranslation = mergeTranslations(globalTranslation, translation);
 

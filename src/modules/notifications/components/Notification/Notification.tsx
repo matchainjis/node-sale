@@ -1,5 +1,5 @@
 import { forwardRef, useMemo } from 'react';
-import { IconButton, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import { CustomContentProps, SnackbarKey } from 'notistack';
 
 import CloseIcon from 'modules/common/icons/close-icon.svg?react';
@@ -30,10 +30,10 @@ export const Notification = forwardRef<
       direction={onClose ? 'column' : 'row'}
       role="alert"
       sx={{
-        backgroundColor: notificationPalette.light,
-        border: `1px solid ${notificationPalette.main}`,
-        color: notificationPalette.main,
-        borderRadius: '16px',
+        backgroundColor: alpha(theme.palette.common.white, 0.05),
+        border: `2px solid ${notificationPalette.main}`,
+        color: notificationPalette.contrastText,
+        borderRadius: '12px',
         padding: theme.spacing(3, 2, 3, 4),
         justifyContent: 'space-between',
       }}
@@ -44,7 +44,7 @@ export const Notification = forwardRef<
             position: 'absolute',
             top: theme.spacing(1),
             right: theme.spacing(1),
-            width: 20,
+            width: 16,
           }}
           onClick={() => onClose(id)}
         >

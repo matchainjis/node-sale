@@ -5,22 +5,32 @@ import { Table } from 'modules/common/components/Table';
 import { TableCellProps } from 'modules/common/components/Table/TableCell';
 import MinusIcon from 'modules/common/icons/minus-icon.svg?react';
 import PlusIcon from 'modules/common/icons/plus-icon.svg?react';
+import { DelegateDialog } from 'modules/delegate/components/DelegateDialog';
+import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { useTranslation } from 'modules/i18n';
 
 import { translation } from './translation';
 import { useStyles } from './useStyles';
 
 interface IActionsCellProps extends TableCellProps {
+  poolAddress: string;
   isDelegateOnly?: boolean;
 }
 
 export function ActionsCell({
+  poolAddress,
   isDelegateOnly = true,
   ...props
 }: IActionsCellProps): ReactElement {
   const { t, keys } = useTranslation(translation);
   const { classes, theme } = useStyles();
   const isMd = useMediaQuery(theme.breakpoints.down('md'));
+
+  const {
+    onOpen: onDelegateOpen,
+    isOpened: isDelegateOpened,
+    context,
+  } = useDialog<string>(KnownDialogs.delegate);
 
   return (
     <Table.Cell {...props}>
@@ -32,6 +42,7 @@ export function ActionsCell({
             color="primary"
             size="medium"
             variant="outlined"
+            onClick={() => onDelegateOpen(poolAddress)}
           >
             {t(keys.delegate)}
           </Button>
@@ -60,6 +71,7 @@ export function ActionsCell({
                 className={classes.squareButton}
                 color="primary"
                 variant="outlined"
+                onClick={() => onDelegateOpen(poolAddress)}
               >
                 {isMd ? t(keys.delegateMore) : <PlusIcon />}
               </Button>
@@ -67,6 +79,8 @@ export function ActionsCell({
           </>
         )}
       </div>
+
+      {isDelegateOpened && context === poolAddress && <DelegateDialog />}
     </Table.Cell>
   );
 }

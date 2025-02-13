@@ -16,3 +16,5 @@ export const PROJECT_POLLING_INTERVAL: Milliseconds = 180000; // 3 minutes
 export const DEFAULT_DECIMAL_PLACES = 4;
 
 export const DEFAULT_LONG_DECIMAL_PLACES = 8;
+
+export const BUY_MORE_LINK = 'https://ankr.com/buy';
