@@ -1,0 +1,22 @@
+import { makeStyles } from 'tss-react/mui';
+
+import { HEADER_HEIGHT } from '../../consts';
+
+export const useStyles = makeStyles()(theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column-reverse',
+
+    [theme.breakpoints.down('md')]: {
+      paddingTop: `calc(${theme.spacing(4)} + ${HEADER_HEIGHT}px)`,
+    },
+  },
+
+  content: {
+    display: 'flex',
+
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(9),
+    },
+  },
+}));

@@ -56,12 +56,31 @@ export function getMuiTypography(theme: Theme): Components['MuiTypography'] {
         },
       },
 
+      h4: {
+        fontWeight: 600,
+        fontSize: 21,
+
+        [theme.breakpoints.down('md')]: {
+          fontSize: 18,
+        },
+      },
+
+      h5: {
+        fontSize: 15,
+        fontWeight: 600,
+      },
+
       body1: {
         fontSize: 13,
       },
 
       body2: {
         fontSize: 12,
+      },
+
+      subtitle2: {
+        fontSize: 10,
+        fontWeight: 500,
       },
     },
   };

@@ -1,15 +1,21 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { HEADER_HEIGHT } from '../../consts';
+
 export const useStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
 
-    height: 54,
+    height: HEADER_HEIGHT,
     padding: theme.spacing(0, 4.5),
 
     [theme.breakpoints.down('md')]: {
+      position: 'fixed',
+      left: 0,
+      top: 0,
+      width: '100%',
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(0, 3),
     },

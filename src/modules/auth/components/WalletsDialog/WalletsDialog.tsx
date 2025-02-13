@@ -4,17 +4,17 @@ import { EWalletId } from '@ankr.com/provider';
 import { TrustWalletConnectButton } from 'modules/auth/components/TrustWalletConnectButton';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { Dialog } from 'modules/dialogs/components/Dialog';
+import { globalTranslation } from 'modules/i18n';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { useConnection } from '../../hooks/useConnection';
 import { ConnectButton } from '../ConnectButton';
 import { MetamaskConnectButton } from '../MetamaskConnectButton';
-import { translation } from './translation';
 import { useStyles } from './useStyles';
 
 export function WalletsDialog(): ReactElement {
   const { isOpened, onClose } = useDialog(KnownDialogs.connect);
-  const { t, keys } = useTranslation(translation);
+  const { t, keys } = useTranslation(globalTranslation);
   const { classes } = useStyles();
   const { connect, isLoading } = useConnection();
 
@@ -30,7 +30,11 @@ export function WalletsDialog(): ReactElement {
   );
 
   return (
-    <Dialog open={isOpened} title={t(keys.title)} onClose={onClose}>
+    <Dialog
+      open={isOpened}
+      title={t(keys.common.connectWallet)}
+      onClose={onClose}
+    >
       <div className={classes.wallets}>
         <MetamaskConnectButton disabled={isLoading} onConnect={handleConnect} />
 

@@ -38,6 +38,7 @@ export async function getReadProvider(chainId: ChainId): Promise<ReadProvider> {
   const url = getRpcUrl(chainId);
   const provider = new ReadProvider(url, chainId);
   await provider.connect();
+
   providers[chainId] = provider;
 
   return provider;

@@ -7,6 +7,10 @@ export function getMuiMenu(): Components['MuiMenu'] {
         '&&': {
           padding: 0,
           borderRadius: 12,
+
+          '&:before': {
+            display: 'none',
+          },
         },
       },
       list: {

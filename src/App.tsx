@@ -20,6 +20,14 @@ BigNumber.config({
   EXPONENTIAL_AT: [-100, 100],
   DECIMAL_PLACES: 18,
   ROUNDING_MODE: 1,
+  FORMAT: {
+    decimalSeparator: '.',
+    groupSeparator: ' ',
+    groupSize: 3,
+    secondaryGroupSize: 0,
+    fractionGroupSeparator: ' ',
+    fractionGroupSize: 0,
+  },
 });
 
 function App(): JSX.Element {

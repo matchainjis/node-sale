@@ -12,8 +12,11 @@ export const globalTranslation = {
     },
     unit: {
       $: '${value}',
-      tokenValue: '{value, number} {token}',
+      tokenValue: '{value} {token}',
       percent: '{value}%',
+    },
+    tokens: {
+      main: 'MAT',
     },
     requestError: {},
   },

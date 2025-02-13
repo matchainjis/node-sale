@@ -50,11 +50,7 @@ export const {
           }
         });
       },
-      invalidatesTags: [
-        cacheTags.account,
-        cacheTags.balance,
-        cacheTags.chainData,
-      ],
+      invalidatesTags: [cacheTags.account, cacheTags.chainData],
     }),
   }),
 });

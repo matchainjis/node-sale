@@ -36,10 +36,10 @@
     eslint-plugin-unused-imports "^2.0.0"
     prettier "^2.7.1"
 
-"@ankr.com/provider@^5.5.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-5.6.0.tgz#69f2ab4fb6d6b635efb1ff099bfcf3f911eeb385"
-  integrity sha512-UdIja4LOeDdrdc0FNiWyBQFn0lKe7YStgZCWc+WZV9YvmOrJ9+DyH2HrIM1QGdjqBCtcItUd+ndCPfHa5LfLXg==
+"@ankr.com/provider@^5.6.1":
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-5.6.1.tgz#73f05ea44d7d2b36870529eb93c0d30ebdfe7648"
+  integrity sha512-x+zHT4zYgkN68Z446xZWfS9jNpX5tA5pSP1mCcuDra/8pOFatj+Q2olYlaZf8Qospo6nfUBFqccEd7PCy4zDvQ==
 
 "@ankr.com/tsconfig@^0.0.0":
   version "0.0.0"

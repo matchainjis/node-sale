@@ -2,7 +2,9 @@ import { ReactElement, ReactNode } from 'react';
 
 import { WalletsDialog } from 'modules/auth/components/WalletsDialog';
 import { useScrollToTop } from 'modules/common/hooks/useScrollToTop';
-import { Header } from 'modules/layout/components/Header/Header';
+
+import { Header } from '../Header';
+import { useStyles } from './useStyles';
 
 interface ILayoutProps {
   children: ReactElement | ReactNode;
@@ -10,12 +12,13 @@ interface ILayoutProps {
 
 export function Layout({ children }: ILayoutProps): ReactElement {
   useScrollToTop();
+  const { classes } = useStyles();
 
   return (
-    <div>
-      <Header />
+    <div className={classes.root}>
+      <div className={classes.content}>{children}</div>
 
-      {children}
+      <Header />
 
       <WalletsDialog />
     </div>

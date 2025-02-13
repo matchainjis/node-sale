@@ -20,6 +20,51 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
 
       variants: [
         {
+          props: { variant: 'outlined', color: 'primary' },
+          style: {
+            background: `linear-gradient(90deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
+            border: 'none',
+            color: theme.palette.text.primary,
+            backdropFilter: 'blur(10px)',
+            position: 'relative',
+
+            '&:before': {
+              zIndex: -1,
+              content: '""',
+              position: 'absolute',
+              inset: '0',
+              borderRadius: 15,
+              left: 2,
+              top: 2,
+              width: 'calc(100% - 4px)',
+              height: 'calc(100% - 4px)',
+              transition: 'all 0.2s ease-in-out',
+              backgroundColor: alpha(theme.palette.background.default, 0.6),
+            },
+
+            '&:hover': {
+              border: 'none',
+              '&:before': {
+                backgroundColor: alpha(theme.palette.background.default, 0.4),
+              },
+            },
+
+            '&:active, &:focus': {
+              border: 'none',
+
+              '&:before': {
+                backgroundColor: alpha(theme.palette.background.default, 0.9),
+              },
+            },
+
+            '&.Mui-disabled': {
+              border: 'none',
+              color: alpha(theme.palette.secondary.contrastText, 0.2),
+              background: `linear-gradient(90deg, ${alpha(theme.palette.primary.dark, 0.2)}, ${alpha(theme.palette.primary.main, 0.2)} 100%)`,
+            },
+          },
+        },
+        {
           props: { variant: 'outlined', color: 'secondary' },
           style: {
             background: theme.palette.secondary.main,

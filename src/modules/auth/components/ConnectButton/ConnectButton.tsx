@@ -46,6 +46,7 @@ export function ConnectButton({
         {...props}
         {...buttonProps}
         className={cx(classes.root, props.className)}
+        color="info"
         disabled={disabled}
         variant="outlined"
       >
