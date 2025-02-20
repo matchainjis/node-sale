@@ -17,6 +17,6 @@ export const DEFAULT_DECIMAL_PLACES = 4;
 
 export const DEFAULT_LONG_DECIMAL_PLACES = 8;
 
-export const BUY_MORE_LINK = 'https://ankr.com/buy';
+export const BUY_MORE_LINK = '';
 
 export const ONE_MINUTE_MS = 60000;

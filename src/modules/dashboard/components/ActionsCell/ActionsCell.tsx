@@ -5,10 +5,8 @@ import { Table } from 'modules/common/components/Table';
 import { TableCellProps } from 'modules/common/components/Table/TableCell';
 import MinusIcon from 'modules/common/icons/minus-icon.svg?react';
 import PlusIcon from 'modules/common/icons/plus-icon.svg?react';
-import { DelegateDialog } from 'modules/delegate/components/DelegateDialog';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { useTranslation } from 'modules/i18n';
-import { WithdrawDialog } from 'modules/withdraw/components/WithdrawDialog';
 
 import { translation } from './translation';
 import { useStyles } from './useStyles';
@@ -27,17 +25,9 @@ export function ActionsCell({
   const { classes, theme } = useStyles();
   const isMd = useMediaQuery(theme.breakpoints.down('md'));
 
-  const {
-    onOpen: onDelegateOpen,
-    isOpened: isDelegateOpened,
-    context: delegateContext,
-  } = useDialog<string>(KnownDialogs.delegate);
+  const { onOpen: onDelegateOpen } = useDialog<string>(KnownDialogs.delegate);
 
-  const {
-    onOpen: onWithdrawOpen,
-    isOpened: isWithdrawOpened,
-    context: withdrawContext,
-  } = useDialog<string>(KnownDialogs.withdraw);
+  const { onOpen: onWithdrawOpen } = useDialog<string>(KnownDialogs.withdraw);
 
   return (
     <Table.Cell {...props}>
@@ -87,14 +77,6 @@ export function ActionsCell({
           </>
         )}
       </div>
-
-      {isDelegateOpened && delegateContext === poolAddress && (
-        <DelegateDialog />
-      )}
-
-      {isWithdrawOpened && withdrawContext === poolAddress && (
-        <WithdrawDialog />
-      )}
     </Table.Cell>
   );
 }

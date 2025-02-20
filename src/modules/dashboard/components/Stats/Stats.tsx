@@ -7,6 +7,7 @@ import { useConnection } from 'modules/auth/hooks/useConnection';
 import {
   BUY_MORE_LINK,
   DEFAULT_DECIMAL_PLACES,
+  HUNDRED,
   ZERO,
 } from 'modules/common/const';
 import { globalTranslation, mergeTranslations } from 'modules/i18n';
@@ -39,7 +40,7 @@ export function Stats(): ReactElement {
   const { avgAPY, isLoading: isAPYLoading } = useGetPoolAPYs();
 
   const annualEarning = useMemo(
-    () => accountTotalStakedAmount.multipliedBy(avgAPY),
+    () => accountTotalStakedAmount.multipliedBy(avgAPY.dividedBy(HUNDRED)),
     [accountTotalStakedAmount, avgAPY],
   );
 
