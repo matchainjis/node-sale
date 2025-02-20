@@ -5,7 +5,7 @@
   "main": "index.js",
   "homepage": "/staking",
   "repository": "git@github.com:Ankr-network/match-frontend.git",
-  "buildFolderName": "dist",
+  "buildFolderName": "build",
   "scripts": {
     "build:dev": "tsc --noEmit && vite build --mode dev",
     "build:stage": "tsc --noEmit && vite build --mode stage",
