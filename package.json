@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "main": "index.js",
-  "homepage": "/",
+  "homepage": "/staking",
   "repository": "git@github.com:Ankr-network/match-frontend.git",
   "buildFolderName": "dist",
   "scripts": {
