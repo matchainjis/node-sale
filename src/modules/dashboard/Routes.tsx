@@ -4,7 +4,7 @@ import { generatePath, Route } from 'react-router-dom';
 import { createRouteConfig } from 'modules/common/utils/createRouteConfig';
 import { Dashboard } from 'modules/dashboard/screens/Dashboard';
 
-const PATH = '/dashboard';
+const PATH = '/';
 
 export const DashboardRoutesConfig = createRouteConfig(
   {
