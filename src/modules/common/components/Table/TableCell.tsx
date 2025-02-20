@@ -48,17 +48,19 @@ export function TableCell({
 
 const useStyles = makeStyles()(theme => ({
   root: {
-    padding: theme.spacing(3, 3.5),
+    padding: theme.spacing(3, 2),
     backgroundColor: theme.palette.background.paper,
 
     '&:first-of-type': {
       borderTopLeftRadius: 16,
       borderBottomLeftRadius: 16,
+      paddingLeft: theme.spacing(4.5),
     },
 
     '&:last-of-type': {
       borderTopRightRadius: 16,
       borderBottomRightRadius: 16,
+      paddingRight: theme.spacing(4.5),
     },
 
     [theme.breakpoints.down('md')]: {
@@ -66,6 +68,14 @@ const useStyles = makeStyles()(theme => ({
       display: 'flex',
       justifyContent: 'space-between',
       backgroundColor: 'transparent',
+
+      '&:first-of-type': {
+        paddingLeft: 0,
+      },
+
+      '&:last-of-type': {
+        paddingRight: 0,
+      },
     },
   },
   label: {

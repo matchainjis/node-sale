@@ -193,6 +193,19 @@ export default [
   },
   {
     inputs: [],
+    name: 'FEE_LOCK_PERIOD',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'MAX_POOL_FEE',
     outputs: [
       {
@@ -327,6 +340,19 @@ export default [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'initialSelfStakeAmount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'contract PoolOwnership',
@@ -355,6 +381,32 @@ export default [
       },
     ],
     name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'lastFeeChange',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'staker',
+        type: 'address',
+      },
+    ],
+    name: 'moveStakeToSelfStake',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -407,6 +459,11 @@ export default [
             name: 'block',
             type: 'uint256',
           },
+          {
+            internalType: 'uint256',
+            name: 'ratio',
+            type: 'uint256',
+          },
         ],
         internalType: 'struct StakingPool.Unstake[]',
         name: '',
@@ -450,19 +507,6 @@ export default [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'selfStake',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [
       {
         internalType: 'uint256',
@@ -486,6 +530,19 @@ export default [
     name: 'stake',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'stakers',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {

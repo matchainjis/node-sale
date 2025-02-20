@@ -8,6 +8,7 @@ import PlusIcon from 'modules/common/icons/plus-icon.svg?react';
 import { DelegateDialog } from 'modules/delegate/components/DelegateDialog';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { useTranslation } from 'modules/i18n';
+import { WithdrawDialog } from 'modules/withdraw/components/WithdrawDialog';
 
 import { translation } from './translation';
 import { useStyles } from './useStyles';
@@ -29,8 +30,14 @@ export function ActionsCell({
   const {
     onOpen: onDelegateOpen,
     isOpened: isDelegateOpened,
-    context,
+    context: delegateContext,
   } = useDialog<string>(KnownDialogs.delegate);
+
+  const {
+    onOpen: onWithdrawOpen,
+    isOpened: isWithdrawOpened,
+    context: withdrawContext,
+  } = useDialog<string>(KnownDialogs.withdraw);
 
   return (
     <Table.Cell {...props}>
@@ -57,6 +64,7 @@ export function ActionsCell({
                 className={classes.squareButton}
                 color="secondary"
                 variant="outlined"
+                onClick={() => onWithdrawOpen(poolAddress)}
               >
                 {isMd ? t(keys.withdraw) : <MinusIcon />}
               </Button>
@@ -80,7 +88,13 @@ export function ActionsCell({
         )}
       </div>
 
-      {isDelegateOpened && context === poolAddress && <DelegateDialog />}
+      {isDelegateOpened && delegateContext === poolAddress && (
+        <DelegateDialog />
+      )}
+
+      {isWithdrawOpened && withdrawContext === poolAddress && (
+        <WithdrawDialog />
+      )}
     </Table.Cell>
   );
 }

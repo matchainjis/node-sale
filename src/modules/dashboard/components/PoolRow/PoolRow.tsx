@@ -21,6 +21,7 @@ import { useStyles } from './useStyles';
 
 interface IDelegateTableProps {
   poolAddress: string;
+  className?: string;
   showDelegated?: boolean;
 }
 
@@ -28,6 +29,7 @@ const mergedTranslation = mergeTranslations(globalTranslation, translation);
 
 export function PoolRow({
   poolAddress,
+  className,
   showDelegated = false,
 }: IDelegateTableProps): ReactElement | null {
   const { classes, theme } = useStyles();
@@ -60,7 +62,7 @@ export function PoolRow({
   const stakedAmount = accountPool?.stakedAmount ?? ZERO;
 
   return (
-    <Table.Row>
+    <Table.Row className={className}>
       <PoolCell
         address={address}
         className={classes.poolCell}

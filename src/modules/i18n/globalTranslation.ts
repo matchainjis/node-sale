@@ -7,6 +7,8 @@ export const globalTranslation = {
       space: ' ',
       colon: ':',
       to: 'to',
+      of: 'of',
+      from: 'from',
       ok: 'ok',
       connect: 'Connect',
       disconnect: 'Disconnect',

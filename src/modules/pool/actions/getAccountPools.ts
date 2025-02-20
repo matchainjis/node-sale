@@ -1,4 +1,5 @@
 import { api, cacheTags } from 'modules/api';
+import { ZERO } from 'modules/common/const';
 import { getAccountPoolEndpoint } from 'modules/pool/actions/getAccountPool';
 
 import { IAccountPool } from '../types';
@@ -20,8 +21,10 @@ export const { useGetAccountPoolsQuery } = api.injectEndpoints({
         );
 
         const pools = result
-          .filter(r => !!r.data)
-          .map(r => r.data as IAccountPool);
+          .filter(
+            pool => !!pool.data && pool.data.stakedAmount.isGreaterThan(ZERO),
+          )
+          .map(pool => pool.data as IAccountPool);
 
         return { data: pools };
       },

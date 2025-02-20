@@ -32,3 +32,9 @@ export interface IAccountPool {
   address: string;
   stakedAmount: BigNumber;
 }
+
+export interface IPoolUnstake {
+  poolAddress: string;
+  amount: BigNumber;
+  executedAt: Date;
+}

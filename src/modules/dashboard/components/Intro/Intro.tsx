@@ -45,15 +45,8 @@ export function Intro(): ReactElement {
 
   const isLoading = isPoolsAddressesLoading || isPoolsLoading;
 
-  const { totalStaked, totalDelegators } = useMemo(
-    () =>
-      pools.reduce(
-        (acc, { totalDelegators, tvl }) => ({
-          totalStaked: acc.totalStaked.plus(tvl),
-          totalDelegators: acc.totalDelegators.plus(totalDelegators),
-        }),
-        { totalStaked: ZERO, totalDelegators: ZERO },
-      ),
+  const totalStaked = useMemo(
+    () => pools.reduce((acc, { tvl }) => acc.plus(tvl), ZERO),
     [pools],
   );
 
@@ -104,7 +97,7 @@ export function Intro(): ReactElement {
               {isLoading ? (
                 <Skeleton animation="wave" variant="text" />
               ) : (
-                totalDelegators.toFormat()
+                pools.length
               )}
             </Typography>
 

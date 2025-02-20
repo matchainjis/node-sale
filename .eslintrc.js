@@ -10,6 +10,7 @@ module.exports = {
     ...require('@ankr.com/eslint-config').rules,
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/jsx-wrap-multilines': 'off',
+    'react/jsx-curly-newline': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'jsx-a11y/anchor-is-valid': 'off',

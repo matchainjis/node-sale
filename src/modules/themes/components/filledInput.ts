@@ -1,4 +1,4 @@
-import { Components, filledInputClasses } from '@mui/material';
+import { alpha, Components, filledInputClasses } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 
 export function getMuiFilledInput(theme: Theme): Components['MuiFilledInput'] {
@@ -9,11 +9,19 @@ export function getMuiFilledInput(theme: Theme): Components['MuiFilledInput'] {
     },
     styleOverrides: {
       root: {
-        borderRadius: 16,
-        boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
-
-        [`&&, &:hover, &:focus, &.${filledInputClasses.focused}`]: {
+        '&&': {
           background: 'transparent',
+          borderRadius: 16,
+          boxShadow: `0 0 0 1px ${alpha(theme.palette.text.primary, 0.15)}`,
+          transition: 'box-shadow 0.3s ease',
+
+          '&:hover': {
+            boxShadow: `0 0 0 2px ${alpha(theme.palette.text.primary, 0.15)}`,
+          },
+
+          [`&:focus, &.${filledInputClasses.focused}`]: {
+            boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
+          },
         },
       },
 

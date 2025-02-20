@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from 'react';
+import { ReactElement, useCallback, useMemo } from 'react';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
 import BigNumber from 'bignumber.js';
@@ -18,6 +18,7 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { useGetDelegateAllowanceQuery } from 'modules/delegate/actions/getDelegateAllowance';
+import { useGetDelegateFeeQuery } from 'modules/delegate/actions/getDelegateFee';
 import { useSetDelegateAllowanceAllowanceMutation } from 'modules/delegate/actions/setDelegateAllowance';
 import {
   globalTranslation,
@@ -71,6 +72,7 @@ export function DelegateForm({
     formState: { errors },
     handleSubmit,
     watch,
+    setValue,
   } = useForm<IFormValues>({
     mode: 'onChange',
     defaultValues: {
@@ -82,8 +84,37 @@ export function DelegateForm({
 
   const convertedAmount = useMemo(() => {
     const convertedValue = new BigNumber(amountInputValue);
+
     return convertedValue.isNaN() ? ZERO : convertedValue;
   }, [amountInputValue]);
+
+  const isApproved =
+    allowanceData &&
+    poolAddress === allowanceData.spender &&
+    convertedAmount.isLessThanOrEqualTo(allowanceData.allowance);
+
+  const { data: feeAmount = ZERO } = useGetDelegateFeeQuery(
+    {
+      amount: convertedAmount,
+      poolAddress,
+    },
+    {
+      skip:
+        !isConnected ||
+        convertedAmount.isZero() ||
+        convertedAmount.isGreaterThan(allowanceData?.allowance || ZERO),
+    },
+  );
+
+  const totalAmount = useMemo(
+    () => convertedAmount.plus(feeAmount),
+    [convertedAmount, feeAmount],
+  );
+  const onMaxClick = useCallback(
+    () =>
+      setValue('amount', balance.minus(feeAmount).decimalPlaces(8).toString()),
+    [balance, feeAmount, setValue],
+  );
 
   if (!pool) {
     return null;
@@ -93,11 +124,6 @@ export function DelegateForm({
   const { commission } = pool;
 
   const incomeAmount = convertedAmount.multipliedBy(poolAPY.div(HUNDRED));
-
-  const isApproved =
-    allowanceData &&
-    poolAddress === allowanceData.spender &&
-    convertedAmount.isLessThanOrEqualTo(allowanceData.allowance);
 
   return (
     <form
@@ -125,13 +151,14 @@ export function DelegateForm({
         getMoreLink={BUY_MORE_LINK}
         label={t(keys.inputTokenLabel, { token: t(keys.tokens.main) })}
         name="amount"
+        placeholder="0"
         variant="filled"
-        onMaxClick={undefined}
+        onMaxClick={onMaxClick}
       />
 
       <div className={classes.content}>
-        {!incomeAmount.isZero() && (
-          <div className={classes.infos}>
+        <div className={classes.infos}>
+          {!incomeAmount.isZero() && (
             <Info>
               {t(keys.income, {
                 value: incomeAmount.decimalPlaces(DEFAULT_DECIMAL_PLACES),
@@ -140,25 +167,27 @@ export function DelegateForm({
                 token: t(keys.tokens.main),
               })}
             </Info>
+          )}
 
-            <Info>{t(keys.period, { value: UNSTAKE_PERIOD_DAYS })}</Info>
-          </div>
-        )}
+          <Info>{t(keys.period, { value: UNSTAKE_PERIOD_DAYS })}</Info>
+        </div>
       </div>
 
       <Summary className={classes.summary}>
-        <SummaryItem
-          label={t(keys.gasFeeLabel)}
-          value={t(keys.unit.tokenValue, {
-            value: ZERO.decimalPlaces(8),
-            token: t(keys.tokens.chainToken),
-          })}
-        />
+        {!feeAmount.decimalPlaces(8).isZero() && (
+          <SummaryItem
+            label={t(keys.gasFeeLabel)}
+            value={t(keys.unit.tokenValue, {
+              value: feeAmount.decimalPlaces(8),
+              token: t(keys.tokens.chainToken),
+            })}
+          />
+        )}
 
         <SummaryItem
           label={t(keys.totalAmountLabel)}
           value={t(keys.unit.tokenValue, {
-            value: convertedAmount.decimalPlaces(8),
+            value: totalAmount.decimalPlaces(8),
             token: t(keys.tokens.main),
           })}
         />

@@ -24,6 +24,7 @@ export const useStyles = makeStyles()(theme => ({
   },
 
   link: {
+    zIndex: 1,
     background: `linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
 
     '-webkit-background-clip': 'text',

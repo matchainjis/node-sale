@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Container } from '@mui/material';
 
 import { useConnection } from 'modules/auth/hooks/useConnection';
+import { AccountPools } from 'modules/dashboard/components/AccountPools';
 
 import { Intro } from '../../components/Intro';
 import { StakingPools } from '../../components/StakingPools';
@@ -15,6 +16,8 @@ export function Dashboard(): ReactElement {
   return (
     <Container className={classes.root}>
       {isConnected ? <Stats /> : <Intro />}
+
+      <AccountPools />
 
       <StakingPools />
     </Container>

@@ -9,12 +9,13 @@ interface Props extends TdHTMLAttributes<HTMLTableCellElement> {
 export function TableHeadCell({
   children,
   align = 'left',
+  className,
   ...props
 }: Props): JSX.Element {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
-    <td align={align} className={classes.root} {...props}>
+    <td align={align} className={cx(classes.root, className)} {...props}>
       <Typography
         paragraph
         className={classes.cellContent}
@@ -30,7 +31,27 @@ export function TableHeadCell({
 const useStyles = makeStyles()(theme => ({
   root: {
     whiteSpace: 'nowrap',
-    padding: theme.spacing(0, 3.5, 1.5),
+    padding: theme.spacing(0, 2, 1.5),
+
+    '&:first-of-type': {
+      paddingLeft: theme.spacing(4.5),
+    },
+
+    '&:last-of-type': {
+      paddingRight: theme.spacing(4.5),
+    },
+
+    [theme.breakpoints.down('md')]: {
+      padding: 0,
+
+      '&:first-of-type': {
+        paddingLeft: 0,
+      },
+
+      '&:last-of-type': {
+        paddingRight: 0,
+      },
+    },
   },
 
   cellContent: {

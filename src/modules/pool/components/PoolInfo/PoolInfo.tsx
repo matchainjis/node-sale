@@ -10,19 +10,23 @@ interface IPoolInfoProps {
   name: string;
   image: string;
   address: string;
+  type?: 'delegate' | 'withdraw';
 }
 
 export function PoolInfo({
   name,
   image,
   address,
+  type = 'delegate',
 }: IPoolInfoProps): ReactElement {
   const { t, keys } = useTranslation(globalTranslation);
   const { classes } = useStyles();
 
   return (
     <Typography className={classes.root} variant="body1">
-      <span>{t(keys.common.to)}</span>
+      <span>
+        {type === 'delegate' ? t(keys.common.to) : t(keys.common.from)}
+      </span>
 
       {image && <img alt="" className={classes.icon} src={image} />}
 

@@ -3,7 +3,6 @@ import { Theme } from '@mui/material/styles';
 
 export function getMuiInputLabel(theme: Theme): Components['MuiInputLabel'] {
   return {
-    defaultProps: {},
     styleOverrides: {
       root: {
         fontSize: 13,
@@ -16,9 +15,10 @@ export function getMuiInputLabel(theme: Theme): Components['MuiInputLabel'] {
           left: 0,
           top: 0,
           padding: theme.spacing(4, 4.5),
+          pointerEvents: 'auto',
         },
 
-        [`&, &.${inputLabelClasses.focused}`]: {
+        [`&, &.${inputLabelClasses.focused}, &.${inputLabelClasses.error}`]: {
           color: theme.palette.text.primary,
         },
       },

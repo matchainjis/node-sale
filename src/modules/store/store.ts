@@ -4,10 +4,12 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { api } from 'modules/api';
 import { listenerMiddleware } from 'modules/auth';
 import { dialogSlice } from 'modules/dialogs';
+import { claimSlice } from 'modules/pool/claimSlice';
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [dialogSlice.name]: dialogSlice.reducer,
+  [claimSlice.name]: claimSlice.reducer,
 });
 
 export const store = configureStore({

@@ -30,7 +30,8 @@ export const Notification = forwardRef<
       direction={onClose ? 'column' : 'row'}
       role="alert"
       sx={{
-        backgroundColor: alpha(theme.palette.common.white, 0.05),
+        backgroundColor: alpha(theme.palette.background.default, 0.05),
+        backdropFilter: 'blur(10px)',
         border: `2px solid ${notificationPalette.main}`,
         color: notificationPalette.contrastText,
         borderRadius: '12px',

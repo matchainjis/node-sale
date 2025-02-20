@@ -6,29 +6,28 @@ import {
   IGetAllowanceResult,
 } from 'modules/api/methods/getAllowance';
 
-interface IGetApproveAmountParams {
+interface IGetAllowanceParams {
   poolAddress: string;
 }
 
 export const { useGetDelegateAllowanceQuery } = api.injectEndpoints({
   endpoints: build => ({
-    getDelegateAllowance: build.query<
-      IGetAllowanceResult,
-      IGetApproveAmountParams
-    >({
-      queryFn: async ({ poolAddress }) => {
-        const provider = await getReadProvider(chainId);
-        const writeProvider = await getWriteProvider();
+    getDelegateAllowance: build.query<IGetAllowanceResult, IGetAllowanceParams>(
+      {
+        queryFn: async ({ poolAddress }) => {
+          const provider = await getReadProvider(chainId);
+          const writeProvider = await getWriteProvider();
 
-        const result = await getAllowance(provider, {
-          userAddress: writeProvider.currentAccount,
-          spender: poolAddress,
-          tokenAddress: MAIN_TOKEN_ADDRESS,
-        });
+          const result = await getAllowance(provider, {
+            userAddress: writeProvider.currentAccount,
+            spender: poolAddress,
+            tokenAddress: MAIN_TOKEN_ADDRESS,
+          });
 
-        return { data: result };
+          return { data: result };
+        },
+        providesTags: [cacheTags.allowance],
       },
-      providesTags: [cacheTags.allowance],
-    }),
+    ),
   }),
 });

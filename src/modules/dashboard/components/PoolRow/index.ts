@@ -1,1 +1,1 @@
-export * from 'modules/dashboard/components/PoolRow/PoolRow';
+export * from './PoolRow';
