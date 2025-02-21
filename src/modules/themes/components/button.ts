@@ -42,18 +42,19 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
               backgroundColor: alpha(theme.palette.background.default, 0.6),
             },
 
-            '&:hover': {
+            '&:hover, &:active': {
               border: 'none',
+
               '&:before': {
                 backgroundColor: alpha(theme.palette.background.default, 0.4),
               },
             },
 
-            '&:active, &:focus': {
-              border: 'none',
+            '&:focus': {
+              background: `linear-gradient(90deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
 
               '&:before': {
-                backgroundColor: alpha(theme.palette.background.default, 0.9),
+                backgroundColor: alpha(theme.palette.background.default, 0.6),
               },
             },
 

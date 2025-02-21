@@ -19,7 +19,6 @@ import {
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
 import { PoolInfo } from 'modules/pool/components/PoolInfo/PoolInfo';
-import { useGetWithdrawFeeQuery } from 'modules/withdraw/actions/getWithdrawFee';
 
 import { translation } from './translation';
 import { useStyles } from './useStyles';
@@ -75,24 +74,9 @@ export function WithdrawForm({
     return convertedValue.isNaN() ? ZERO : convertedValue;
   }, [amountInputValue]);
 
-  const { data: feeAmount = ZERO } = useGetWithdrawFeeQuery(
-    {
-      amount: convertedAmount.isZero() ? balance : convertedAmount,
-      poolAddress,
-    },
-    {
-      skip: !isConnected || convertedAmount.isZero(),
-    },
-  );
-
-  const totalAmount = useMemo(
-    () => convertedAmount.plus(feeAmount),
-    [convertedAmount, feeAmount],
-  );
   const onMaxClick = useCallback(
-    () =>
-      setValue('amount', balance.minus(feeAmount).decimalPlaces(8).toString()),
-    [balance, feeAmount, setValue],
+    () => setValue('amount', balance.decimalPlaces(8).toString()),
+    [balance, setValue],
   );
 
   if (!pool) {
@@ -144,20 +128,10 @@ export function WithdrawForm({
       </div>
 
       <Summary className={classes.summary}>
-        {!feeAmount.decimalPlaces(8).isZero() && (
-          <SummaryItem
-            label={t(keys.gasFeeLabel)}
-            value={t(keys.unit.tokenValue, {
-              value: feeAmount.decimalPlaces(8),
-              token: t(keys.tokens.chainToken),
-            })}
-          />
-        )}
-
         <SummaryItem
           label={t(keys.totalAmountLabel)}
           value={t(keys.unit.tokenValue, {
-            value: totalAmount.decimalPlaces(8),
+            value: convertedAmount.decimalPlaces(8),
             token: t(keys.tokens.main),
           })}
         />
