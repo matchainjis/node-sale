@@ -12,6 +12,7 @@ import {
   useTranslation,
 } from 'modules/i18n';
 import { getPoolEndpoint } from 'modules/pool/actions/getPool';
+import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
 import { IPoolUnstake } from 'modules/pool/types';
 
 import { translation } from '../ClaimTable/translation';
@@ -35,19 +36,21 @@ export function ClaimRow({
     address: poolUnstake.poolAddress,
   });
 
+  const { data: poolMeta } = useGetPoolMetaQuery({
+    address: poolUnstake.poolAddress,
+  });
+
   if (!pool) {
     return null;
   }
 
-  const { name, image, address } = pool;
-
   return (
     <Table.Row className={className}>
       <PoolCell
-        address={address}
+        address={poolUnstake.poolAddress}
         className={classes.poolCell}
-        icon={image}
-        poolName={name}
+        icon={poolMeta?.image}
+        poolName={poolMeta?.name}
       />
 
       <AmountCell
