@@ -18,6 +18,7 @@ import {
 } from 'modules/i18n';
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
+import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
 import { PoolInfo } from 'modules/pool/components/PoolInfo/PoolInfo';
 
 import { translation } from './translation';
@@ -43,6 +44,7 @@ export function WithdrawForm({
   const { t, keys } = useTranslation(mergedTranslation);
   const { classes } = useStyles();
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
+  const { data: poolMeta } = useGetPoolMetaQuery({ address: poolAddress });
 
   const { isConnected } = useConnection();
   const { data: accountPool } = useGetAccountPoolQuery(
@@ -103,8 +105,8 @@ export function WithdrawForm({
 
       <PoolInfo
         address={poolAddress}
-        image={pool.image}
-        name={pool.name}
+        image={poolMeta?.image}
+        name={poolMeta?.name}
         type="withdraw"
       />
 

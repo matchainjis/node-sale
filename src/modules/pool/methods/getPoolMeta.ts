@@ -1,10 +1,13 @@
 import { ReadProvider } from 'modules/api';
+import { getIPFSData } from 'modules/api/methods/getIPFSData';
 import { getPoolOwnershipContract } from 'modules/api/methods/getPoolOwnershipContract';
 import { IPoolMeta, IPoolRawMeta } from 'modules/pool/types';
 
+const IPFS_PREFIX = 'ipfs://';
+
 function convertRawIpfsToHttpLink(rawLink: string): string {
-  return rawLink.startsWith('ipfs://')
-    ? rawLink.replace('ipfs://', import.meta.env.VITE_IPFS_GATEWAY)
+  return rawLink.startsWith(IPFS_PREFIX)
+    ? rawLink.replace(IPFS_PREFIX, `${import.meta.env.VITE_IPFS_GATEWAY}/`)
     : rawLink;
 }
 
@@ -18,12 +21,11 @@ export async function getPoolMeta(
     .tokenURI(poolAddress)
     .call();
 
-  const metaURI = convertRawIpfsToHttpLink(metaRawURI);
-  const metaResponse = await fetch(metaURI);
-
-  const metaJson = (await metaResponse.json()) as IPoolRawMeta;
+  const id = metaRawURI.replace(IPFS_PREFIX, '');
+  const metaJson = await getIPFSData<IPoolRawMeta>(id);
 
   return {
+    address: poolAddress,
     name: metaJson.name,
     description: metaJson.description,
     image: convertRawIpfsToHttpLink(metaJson.image),

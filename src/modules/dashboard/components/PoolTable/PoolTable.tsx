@@ -1,6 +1,7 @@
-import { ReactElement } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { Table } from 'modules/common/components/Table';
+import { useIntersectionObserver } from 'modules/common/hooks/useIntersectionObserver';
 import { PoolRow } from 'modules/dashboard/components/PoolRow/PoolRow';
 import { useStyles } from 'modules/dashboard/components/PoolTable/useStyles';
 import { useTranslation } from 'modules/i18n';
@@ -12,6 +13,7 @@ interface IPoolTableProps {
   showDelegated?: boolean;
 }
 
+const ITEMS_PER_LOAD = 5;
 export function PoolTable({
   poolAddresses,
   showDelegated = false,
@@ -19,8 +21,27 @@ export function PoolTable({
   const { t, keys } = useTranslation(translation);
   const { classes } = useStyles();
 
+  const [visibleRows, setVisibleRows] = useState<string[]>([]);
+
+  useEffect(() => {
+    setVisibleRows(poolAddresses.slice(0, ITEMS_PER_LOAD));
+  }, [poolAddresses]);
+
+  const loadMore = useCallback(() => {
+    setVisibleRows(prev => {
+      if (prev.length >= poolAddresses.length) return prev;
+      const addresses = poolAddresses.slice(
+        prev.length,
+        prev.length + ITEMS_PER_LOAD,
+      );
+      return [...prev, ...addresses];
+    });
+  }, [poolAddresses]);
+
+  const setLoaderRef = useIntersectionObserver(loadMore);
+
   return (
-    <div>
+    <div ref={setLoaderRef}>
       <Table>
         <Table.Head>
           <Table.Row className={classes.row}>
@@ -45,7 +66,7 @@ export function PoolTable({
         </Table.Head>
 
         <Table.Body className={classes.body}>
-          {poolAddresses.map(poolAddress => (
+          {visibleRows.map(poolAddress => (
             <PoolRow
               key={poolAddress}
               className={classes.row}

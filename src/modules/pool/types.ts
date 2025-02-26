@@ -5,7 +5,7 @@ export enum PoolStatus {
   Unqualified = 'UNQUALIFIED',
 }
 
-export interface IPool extends IPoolMeta {
+export interface IPool {
   address: string;
   status: PoolStatus;
   commission: BigNumber;
@@ -14,6 +14,7 @@ export interface IPool extends IPoolMeta {
 }
 
 export interface IPoolMeta {
+  address: string;
   name: string;
   description: string;
   image: string; // format - https://ipfs.io/ipfs/image

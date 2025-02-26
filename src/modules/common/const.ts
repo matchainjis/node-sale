@@ -23,6 +23,6 @@ export const ONE_MINUTE_MS = 60000;
 
 export const BASE_PQUEUE_CONFIG = {
   concurrency: 5,
-  interval: 100,
+  interval: 400,
   intervalCap: 5,
 };

@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 
 import { UNSTAKE_PERIOD_DAYS } from 'modules/api/const';
 import { SuccessDialogContent } from 'modules/common/components/SuccessDialogContent/SuccessDialogContent';
@@ -23,13 +23,12 @@ export function WithdrawContent({
 
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
   const [withdraw, { isLoading, data }] = useWithdrawMutation();
-  const [success, setSuccess] = useState(false);
 
   if (!pool) {
     return null;
   }
 
-  if ((!isLoading && data) || success) {
+  if (!isLoading && data) {
     return (
       <SuccessDialogContent
         buttonLabel={t(keys.buttonText)}
@@ -45,9 +44,7 @@ export function WithdrawContent({
     <WithdrawForm
       isSubmitLoading={isLoading}
       poolAddress={poolAddress}
-      onSubmit={({ amount }) =>
-        withdraw({ amount, poolAddress }).then(({ data }) => setSuccess(!!data))
-      }
+      onSubmit={({ amount }) => withdraw({ amount, poolAddress })}
     />
   );
 }

@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { ReadProvider } from 'modules/api';
 import { getStakingPoolContract } from 'modules/api/methods/getStakingPoolContract';
 import { convertFromWei } from 'modules/api/utils';
-import { getPoolMeta } from 'modules/pool/methods/getPoolMeta';
 import { IPool, PoolStatus } from 'modules/pool/types';
 
 export async function getPool(
@@ -12,20 +11,16 @@ export async function getPool(
 ): Promise<IPool | null> {
   const poolContract = getStakingPoolContract(provider, poolAddress);
 
-  const [meta, isActive, totalStakeWei, feeWei, stakersWei] = await Promise.all(
-    [
-      getPoolMeta(provider, poolAddress),
-      poolContract.methods.active().call(),
-      poolContract.methods.totalStake().call(),
-      poolContract.methods.fee().call(),
-      poolContract.methods.stakers().call(),
-    ],
-  );
+  const [isActive, totalStakeWei, feeWei, stakersWei] = await Promise.all([
+    poolContract.methods.active().call(),
+    poolContract.methods.totalStake().call(),
+    poolContract.methods.fee().call(),
+    poolContract.methods.stakers().call(),
+  ]);
 
   const totalStake = convertFromWei(totalStakeWei);
 
   return {
-    ...meta,
     address: poolAddress,
     status: isActive ? PoolStatus.Active : PoolStatus.Unqualified,
     commission: convertFromWei(feeWei, 2),

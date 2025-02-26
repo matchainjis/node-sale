@@ -1,15 +1,20 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   className?: string;
   children: ReactNode;
+  style?: CSSProperties;
 }
 
-export function TableRow({ children, className }: Props): JSX.Element {
+export function TableRow({ children, className, style }: Props): JSX.Element {
   const { classes, cx } = useStyles();
 
-  return <tr className={cx(classes.root, className)}>{children}</tr>;
+  return (
+    <tr className={cx(classes.root, className)} style={style}>
+      {children}
+    </tr>
+  );
 }
 
 const useStyles = makeStyles()(theme => ({

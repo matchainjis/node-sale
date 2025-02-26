@@ -12,4 +12,12 @@ export const useStyles = makeStyles()(theme => ({
     flexDirection: 'column',
     gap: theme.spacing(4.5),
   },
+
+  title: {
+    textTransform: 'uppercase',
+
+    [theme.breakpoints.down('md')]: {
+      marginLeft: theme.spacing(2),
+    },
+  },
 }));

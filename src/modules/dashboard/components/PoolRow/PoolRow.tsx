@@ -14,6 +14,7 @@ import {
 } from 'modules/i18n';
 import { getAccountPoolEndpoint } from 'modules/pool/actions/getAccountPool';
 import { getPoolEndpoint } from 'modules/pool/actions/getPool';
+import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
 import { useGetPoolAPYs } from 'modules/pool/hooks/useGetPoolAPYs';
 
 import { translation } from '../PoolTable/translation';
@@ -40,6 +41,10 @@ export function PoolRow({
     address: poolAddress,
   });
 
+  const { data: poolMeta } = useGetPoolMetaQuery({
+    address: poolAddress,
+  });
+
   const { data: accountPool } = getAccountPoolEndpoint.useQueryState({
     address: poolAddress,
   });
@@ -51,8 +56,7 @@ export function PoolRow({
     return null;
   }
 
-  const { name, image, address, status, tvl, totalDelegators, commission } =
-    pool;
+  const { address, status, tvl, totalDelegators, commission } = pool;
 
   const delegators = t(keys.delegatorsValue, {
     value: totalDelegators.toNumber(),
@@ -67,8 +71,8 @@ export function PoolRow({
         address={address}
         className={classes.poolCell}
         delegators={isMd ? delegators : undefined}
-        icon={image}
-        poolName={name}
+        icon={poolMeta?.image}
+        poolName={poolMeta?.name}
         status={isMd ? status : undefined}
       />
 

@@ -150,8 +150,8 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
       minHeight: 42,
       padding: theme.spacing(0, 6),
       borderRadius: 16,
-      fontSize: 16,
-      lineHeight: 1.5,
+      fontSize: 13,
+      lineHeight: 'normal',
       fontWeight: 600,
     },
 

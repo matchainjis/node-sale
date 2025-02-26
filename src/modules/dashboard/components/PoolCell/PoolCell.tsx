@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 
 import { Table } from 'modules/common/components/Table';
 import { TableCellProps } from 'modules/common/components/Table/TableCell';
@@ -10,7 +10,7 @@ import { PoolStatus } from 'modules/pool/types';
 import { useStyles } from './useStyles';
 
 interface IPoolNameCellProps extends TableCellProps {
-  poolName: string;
+  poolName?: string;
   icon?: string;
   address: string;
   delegators?: string;
@@ -31,11 +31,15 @@ export function PoolCell({
     <Table.Cell {...props}>
       <div className={classes.root}>
         <div className={classes.pool}>
-          {icon && <img alt="" className={classes.icon} src={icon} />}
+          {icon ? (
+            <img alt="" className={classes.icon} src={icon} />
+          ) : (
+            <Skeleton className={classes.icon} height={30} />
+          )}
 
           <div>
             <Typography component="div" variant="body1">
-              {poolName}
+              {poolName || <Skeleton />}
             </Typography>
 
             <div className={classes.labels}>
