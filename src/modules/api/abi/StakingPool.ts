@@ -459,11 +459,6 @@ export default [
             name: 'block',
             type: 'uint256',
           },
-          {
-            internalType: 'uint256',
-            name: 'ratio',
-            type: 'uint256',
-          },
         ],
         internalType: 'struct StakingPool.Unstake[]',
         name: '',
@@ -561,19 +556,6 @@ export default [
   {
     inputs: [],
     name: 'totalStake',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'totalWithdrawnSelfStake',
     outputs: [
       {
         internalType: 'uint256',

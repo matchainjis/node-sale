@@ -36,7 +36,7 @@
     eslint-plugin-unused-imports "^2.0.0"
     prettier "^2.7.1"
 
-"@ankr.com/provider@^5.6.1":
+"@ankr.com/provider@5.6.1":
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-5.6.1.tgz#73f05ea44d7d2b36870529eb93c0d30ebdfe7648"
   integrity sha512-x+zHT4zYgkN68Z446xZWfS9jNpX5tA5pSP1mCcuDra/8pOFatj+Q2olYlaZf8Qospo6nfUBFqccEd7PCy4zDvQ==
@@ -4548,7 +4548,7 @@ p-map@^4.0.0:
   dependencies:
     aggregate-error "^3.0.0"
 
-p-queue@^8.1.0:
+p-queue@8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-8.1.0.tgz#d71929249868b10b16f885d8a82beeaf35d32279"
   integrity sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==
