@@ -13,18 +13,18 @@ const EMPTY_POOLS: string[] = [];
 export function StakingPools(): ReactElement {
   const { classes } = useStyles();
   const { t, keys } = useTranslation(translation);
-  const { data: pools = EMPTY_POOLS } = useGetPoolAddressesQuery();
+  const { data: addresses = EMPTY_POOLS } = useGetPoolAddressesQuery();
 
-  useGetPoolsQuery({ addresses: pools });
+  const { data: pools } = useGetPoolsQuery({ addresses });
 
   return (
     <Paper className={classes.root}>
       <div className={classes.content}>
-        <Typography component="h2" textTransform="uppercase" variant="h5">
+        <Typography className={classes.title} component="h2" variant="h5">
           {t(keys.title)}
         </Typography>
 
-        {pools?.length ? <PoolTable poolAddresses={pools} /> : undefined}
+        {pools?.length ? <PoolTable poolAddresses={addresses} /> : undefined}
       </div>
     </Paper>
   );

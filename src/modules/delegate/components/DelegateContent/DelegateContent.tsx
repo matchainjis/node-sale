@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 
 import { SuccessDialogContent } from 'modules/common/components/SuccessDialogContent/SuccessDialogContent';
 import { useDelegateMutation } from 'modules/delegate/actions/delegate';
@@ -22,13 +22,12 @@ export function DelegateContent({
 
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
   const [delegate, { isLoading, data }] = useDelegateMutation();
-  const [success, setSuccess] = useState(false);
 
   if (!pool) {
     return null;
   }
 
-  if ((!isLoading && data) || success) {
+  if (!isLoading && data) {
     return (
       <SuccessDialogContent
         buttonLabel={t(keys.buttonText)}
@@ -48,7 +47,7 @@ export function DelegateContent({
         delegate({
           amount,
           poolAddress,
-        }).then(({ data }) => setSuccess(!!data))
+        })
       }
     />
   );

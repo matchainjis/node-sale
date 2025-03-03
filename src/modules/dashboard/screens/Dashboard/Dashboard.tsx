@@ -28,7 +28,7 @@ export function Dashboard(): ReactElement {
     <Container className={classes.root}>
       {isConnected ? <Stats /> : <Intro />}
 
-      <AccountPools />
+      {isConnected && <AccountPools />}
 
       <StakingPools />
 

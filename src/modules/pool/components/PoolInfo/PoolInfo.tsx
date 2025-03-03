@@ -7,8 +7,8 @@ import { globalTranslation, useTranslation } from 'modules/i18n';
 import { useStyles } from './useStyles';
 
 interface IPoolInfoProps {
-  name: string;
-  image: string;
+  name?: string;
+  image?: string;
   address: string;
   type?: 'delegate' | 'withdraw';
 }
@@ -30,9 +30,11 @@ export function PoolInfo({
 
       {image && <img alt="" className={classes.icon} src={image} />}
 
-      <Box color={theme => theme.palette.text.primary} component="span">
-        {name}
-      </Box>
+      {name && (
+        <Box color={theme => theme.palette.text.primary} component="span">
+          {name}
+        </Box>
+      )}
 
       <span>{cropString(address)}</span>
     </Typography>

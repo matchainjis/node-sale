@@ -13,6 +13,7 @@ export const globalTranslation = {
       connect: 'Connect',
       disconnect: 'Disconnect',
       connectWallet: 'Connect Wallet',
+      switchNetwork: 'Switch Network',
       balance: 'Balance',
       getMore: 'Get more',
       max: 'Max',

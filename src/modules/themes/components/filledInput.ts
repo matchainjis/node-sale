@@ -29,8 +29,9 @@ export function getMuiFilledInput(theme: Theme): Components['MuiFilledInput'] {
         fontSize: 36,
         fontWeight: 600,
         padding: theme.spacing(15, 4.5, 4),
-        '&&': {
-          background: 'transparent',
+
+        '&&&&::placeholder': {
+          opacity: '0.2 !important',
         },
       },
     },

@@ -20,3 +20,9 @@ export const DEFAULT_LONG_DECIMAL_PLACES = 8;
 export const BUY_MORE_LINK = '';
 
 export const ONE_MINUTE_MS = 60000;
+
+export const BASE_PQUEUE_CONFIG = {
+  concurrency: 5,
+  interval: 400,
+  intervalCap: 5,
+};

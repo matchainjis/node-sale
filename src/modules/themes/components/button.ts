@@ -42,18 +42,19 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
               backgroundColor: alpha(theme.palette.background.default, 0.6),
             },
 
-            '&:hover': {
+            '&:hover, &:active': {
               border: 'none',
+
               '&:before': {
                 backgroundColor: alpha(theme.palette.background.default, 0.4),
               },
             },
 
-            '&:active, &:focus': {
-              border: 'none',
+            '&:focus': {
+              background: `linear-gradient(90deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
 
               '&:before': {
-                backgroundColor: alpha(theme.palette.background.default, 0.9),
+                backgroundColor: alpha(theme.palette.background.default, 0.6),
               },
             },
 
@@ -149,8 +150,8 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
       minHeight: 42,
       padding: theme.spacing(0, 6),
       borderRadius: 16,
-      fontSize: 16,
-      lineHeight: 1.5,
+      fontSize: 13,
+      lineHeight: 'normal',
       fontWeight: 600,
     },
 

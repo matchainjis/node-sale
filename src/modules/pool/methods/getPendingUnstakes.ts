@@ -1,9 +1,10 @@
 import { subSeconds } from 'date-fns';
+import PQueue from 'p-queue';
 
 import { ReadProvider } from 'modules/api';
-import { UNSTAKE_PERIOD_DAYS } from 'modules/api/const';
 import { getStakingPoolContract } from 'modules/api/methods/getStakingPoolContract';
 import { convertFromWei } from 'modules/api/utils';
+import { BASE_PQUEUE_CONFIG } from 'modules/common/const';
 import { IPoolUnstake } from 'modules/pool/types';
 
 interface IGetPendingUnstakes {
@@ -11,47 +12,44 @@ interface IGetPendingUnstakes {
   accountAddress: string;
 }
 
-const TWO_WEEK_BLOCKS = UNSTAKE_PERIOD_DAYS * 24 * 60 * 60 * 2;
-
 export async function getPendingUnstakes(
   provider: ReadProvider,
   { poolAddresses, accountAddress }: IGetPendingUnstakes,
 ): Promise<IPoolUnstake[]> {
   const currentBlock = await provider.getBlockNumber();
-  const offset = currentBlock - TWO_WEEK_BLOCKS;
   const now = new Date().getTime();
 
-  return (
-    await Promise.all(
-      poolAddresses.map(async poolAddress => {
-        try {
-          const poolContract = getStakingPoolContract(provider, poolAddress);
+  const queue = new PQueue(BASE_PQUEUE_CONFIG);
 
-          const pendingUnstakes = await poolContract.methods
-            .pendingUnstakes(accountAddress)
-            .call();
+  const actions = poolAddresses.map(poolAddress => {
+    return queue.add(async () => {
+      const poolContract = getStakingPoolContract(provider, poolAddress);
 
-          return pendingUnstakes.map(({ amount, block }) => {
-            const blockTime = 1;
-            const blockDifference = currentBlock - Number(block);
+      const pendingUnstakes = await poolContract.methods
+        .pendingUnstakes(accountAddress)
+        .call();
 
-            const now = new Date();
-            const executedAt = subSeconds(now, blockDifference * blockTime);
+      return pendingUnstakes.map(({ amount, block }) => {
+        const blockTime = 1;
+        const blockDifference = currentBlock - Number(block);
 
-            return {
-              poolAddress,
-              executedAt,
-              amount: convertFromWei(amount),
-              isClaimable: Number(block) < offset,
-            };
-          });
-        } catch {
-          return [];
-        }
-      }),
-    )
-  )
+        const now = new Date();
+        const executedAt = subSeconds(now, blockDifference * blockTime);
+
+        return {
+          poolAddress,
+          executedAt,
+          amount: convertFromWei(amount),
+        };
+      });
+    });
+  });
+  const results = await Promise.allSettled(actions);
+
+  return results
+    .map(result => (result.status === 'fulfilled' ? result.value : null))
     .flat()
+    .filter((unstake): unstake is IPoolUnstake => !!unstake)
     .sort((a, b) => {
       const timeB = new Date(b.executedAt).getTime();
       const timeA = new Date(a.executedAt).getTime();

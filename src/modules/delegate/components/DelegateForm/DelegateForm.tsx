@@ -26,6 +26,7 @@ import {
   useTranslation,
 } from 'modules/i18n';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
+import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
 import { PoolInfo } from 'modules/pool/components/PoolInfo/PoolInfo';
 import { useGetPoolAPYs } from 'modules/pool/hooks/useGetPoolAPYs';
 
@@ -52,6 +53,7 @@ export function DelegateForm({
   const { t, keys } = useTranslation(mergedTranslation);
   const { classes } = useStyles();
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
+  const { data: poolMeta } = useGetPoolMetaQuery({ address: poolAddress });
 
   const { isConnected } = useConnection();
   const { data: balance = ZERO } = useGetMainTokenBalanceQuery(undefined, {
@@ -141,7 +143,11 @@ export function DelegateForm({
         {t(keys.delegate)}
       </Typography>
 
-      <PoolInfo address={poolAddress} image={pool.image} name={pool.name} />
+      <PoolInfo
+        address={poolAddress}
+        image={poolMeta?.image}
+        name={poolMeta?.name}
+      />
 
       <NumberTextField
         balance={balance}

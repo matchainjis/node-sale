@@ -7,10 +7,15 @@ export const useStyles = makeStyles()(theme => ({
       padding: theme.spacing(4, 2, 2),
     },
   },
+
   tabs: {
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(4.5),
+
+    [theme.breakpoints.down('md')]: {
+      marginLeft: theme.spacing(2),
+    },
   },
 
   tab: {
