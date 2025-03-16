@@ -11,12 +11,14 @@ import { translation } from './translation';
 interface IPoolTableProps {
   poolAddresses: string[];
   showDelegated?: boolean;
+  onPoolClick?: (poolAdd: string) => void;
 }
 
 const ITEMS_PER_LOAD = 5;
 export function PoolTable({
   poolAddresses,
   showDelegated = false,
+  onPoolClick,
 }: IPoolTableProps): ReactElement {
   const { t, keys } = useTranslation(translation);
   const { classes } = useStyles();
@@ -72,6 +74,7 @@ export function PoolTable({
               className={classes.row}
               poolAddress={poolAddress}
               showDelegated={showDelegated}
+              onPoolClick={onPoolClick}
             />
           ))}
         </Table.Body>

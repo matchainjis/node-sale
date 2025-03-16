@@ -7,6 +7,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { ZERO } from 'modules/common/const';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { globalTranslation, mergeTranslations } from 'modules/i18n';
@@ -40,7 +41,10 @@ export function Intro(): ReactElement {
       {
         addresses: poolsAddresses,
       },
-      { skip: poolsAddresses.length === 0 },
+      {
+        skip: poolsAddresses.length === 0,
+        selectFromResult: mapDataToUndefinedIfSkip,
+      },
     );
 
   const isLoading = isPoolsAddressesLoading || isPoolsLoading;

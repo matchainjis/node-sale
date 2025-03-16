@@ -5,6 +5,11 @@ export const MIN_BUTTON_WIDTH = 140;
 
 export const useStyles = makeStyles()(theme => ({
   root: {
+    display: 'flex',
+    gap: theme.spacing(2),
+  },
+
+  selectRoot: {
     background: 'none',
     boxShadow: 'none',
     minHeight: 36,
@@ -74,6 +79,13 @@ export const useStyles = makeStyles()(theme => ({
       '&.Mui-disabled': {
         color: alpha(theme.palette.secondary.contrastText, 0.2),
       },
+    },
+  },
+
+  squareButton: {
+    '&&': {
+      padding: 0,
+      minWidth: 36,
     },
   },
 }));

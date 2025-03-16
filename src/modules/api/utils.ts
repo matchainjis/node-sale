@@ -15,3 +15,9 @@ export function convertToWei(
 ) {
   return utils.toWei(value.toString(), unit);
 }
+
+export const mapDataToUndefinedIfSkip = <
+  T extends { data?: unknown; isUninitialized?: boolean },
+>(
+  result: T,
+): T => (result.isUninitialized ? { ...result, data: undefined } : result);

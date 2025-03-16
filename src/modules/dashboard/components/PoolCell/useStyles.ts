@@ -19,7 +19,13 @@ export const useStyles = makeStyles()(theme => ({
   icon: {
     width: 30,
     minWidth: 30,
-    maxHeight: 30,
+    height: 30,
+    overflow: 'hidden',
+  },
+
+  image: {
+    objectFit: 'cover',
+    width: '100%',
   },
 
   labels: {

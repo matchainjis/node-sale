@@ -24,6 +24,7 @@ interface IDelegateTableProps {
   poolAddress: string;
   className?: string;
   showDelegated?: boolean;
+  onPoolClick?: (poolAddress: string) => void;
 }
 
 const mergedTranslation = mergeTranslations(globalTranslation, translation);
@@ -32,6 +33,7 @@ export function PoolRow({
   poolAddress,
   className,
   showDelegated = false,
+  onPoolClick,
 }: IDelegateTableProps): ReactElement | null {
   const { classes, theme } = useStyles();
   const { t, keys } = useTranslation(mergedTranslation);
@@ -66,7 +68,16 @@ export function PoolRow({
   const stakedAmount = accountPool?.stakedAmount ?? ZERO;
 
   return (
-    <Table.Row className={className}>
+    <Table.Row
+      className={className}
+      onClick={
+        onPoolClick
+          ? () => {
+              onPoolClick?.(poolAddress);
+            }
+          : undefined
+      }
+    >
       <PoolCell
         address={address}
         className={classes.poolCell}

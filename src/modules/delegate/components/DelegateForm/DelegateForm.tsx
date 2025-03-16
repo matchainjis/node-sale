@@ -1,10 +1,11 @@
-import { ReactElement, useCallback, useMemo } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
 import BigNumber from 'bignumber.js';
 
 import { useGetMainTokenBalanceQuery } from 'modules/api/actions/getMainTokenBalance';
 import { UNSTAKE_PERIOD_DAYS } from 'modules/api/const';
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { GuardButton } from 'modules/auth/components/GuardButton';
 import { useConnection } from 'modules/auth/hooks/useConnection';
 import { Info } from 'modules/common/components/Info';
@@ -17,9 +18,9 @@ import {
   HUNDRED,
   ZERO,
 } from 'modules/common/const';
-import { useGetDelegateAllowanceQuery } from 'modules/delegate/actions/getDelegateAllowance';
+import { useLazyGetDelegateAllowanceQuery } from 'modules/delegate/actions/getDelegateAllowance';
 import { useGetDelegateFeeQuery } from 'modules/delegate/actions/getDelegateFee';
-import { useSetDelegateAllowanceAllowanceMutation } from 'modules/delegate/actions/setDelegateAllowance';
+import { useSetDelegateAllowanceMutation } from 'modules/delegate/actions/setDelegateAllowance';
 import {
   globalTranslation,
   mergeTranslations,
@@ -34,6 +35,7 @@ import { translation } from './translation';
 import { useStyles } from './useStyles';
 
 interface IDelegateContentProps {
+  title?: string;
   poolAddress: string;
   onSubmit: (params: { amount: BigNumber }) => void;
   isSubmitLoading: boolean;
@@ -46,6 +48,7 @@ interface IFormValues extends FieldValues {
 const mergedTranslation = mergeTranslations(globalTranslation, translation);
 
 export function DelegateForm({
+  title,
   poolAddress,
   onSubmit,
   isSubmitLoading,
@@ -58,16 +61,20 @@ export function DelegateForm({
   const { isConnected } = useConnection();
   const { data: balance = ZERO } = useGetMainTokenBalanceQuery(undefined, {
     skip: !isConnected,
+    selectFromResult: mapDataToUndefinedIfSkip,
   });
   const { poolAPYs } = useGetPoolAPYs();
   const poolAPY = poolAPYs[poolAddress] ?? ZERO;
 
   const [setAllowance, { isLoading: isSetAllowanceLoading }] =
-    useSetDelegateAllowanceAllowanceMutation();
-  const { data: allowanceData } = useGetDelegateAllowanceQuery(
-    { poolAddress },
-    { skip: !isConnected },
-  );
+    useSetDelegateAllowanceMutation();
+
+  const [
+    getAllowance,
+    { data: allowanceData, isLoading: isGetAllowanceLoading },
+  ] = useLazyGetDelegateAllowanceQuery();
+
+  const [isAllowanceLoading, setIsAllowanceLoading] = useState(false);
 
   const {
     control,
@@ -90,6 +97,17 @@ export function DelegateForm({
     return convertedValue.isNaN() ? ZERO : convertedValue;
   }, [amountInputValue]);
 
+  useEffect(() => {
+    void getAllowance({ poolAddress });
+  }, [getAllowance, poolAddress]);
+
+  const handleApprove = useCallback(() => {
+    setIsAllowanceLoading(true);
+    void setAllowance({ amount: convertedAmount, poolAddress })
+      .then(() => getAllowance({ poolAddress }))
+      .finally(() => setIsAllowanceLoading(false));
+  }, [convertedAmount, getAllowance, poolAddress, setAllowance]);
+
   const isApproved =
     allowanceData &&
     poolAddress === allowanceData.spender &&
@@ -105,6 +123,7 @@ export function DelegateForm({
         !isConnected ||
         convertedAmount.isZero() ||
         convertedAmount.isGreaterThan(allowanceData?.allowance || ZERO),
+      selectFromResult: mapDataToUndefinedIfSkip,
     },
   );
 
@@ -122,6 +141,8 @@ export function DelegateForm({
     return null;
   }
 
+  const isApproveLoading =
+    isGetAllowanceLoading || isAllowanceLoading || isSetAllowanceLoading;
   const isSubmitDisabled = !!errors.amount?.message || !watch('amount');
   const { commission } = pool;
 
@@ -140,7 +161,7 @@ export function DelegateForm({
         textTransform="uppercase"
         variant="h2"
       >
-        {t(keys.delegate)}
+        {title || t(keys.delegate)}
       </Typography>
 
       <PoolInfo
@@ -166,12 +187,16 @@ export function DelegateForm({
         <div className={classes.infos}>
           {!incomeAmount.isZero() && (
             <Info>
-              {t(keys.income, {
-                value: incomeAmount.decimalPlaces(DEFAULT_DECIMAL_PLACES),
-                apy: poolAPY.decimalPlaces(2),
-                fee: commission,
-                token: t(keys.tokens.main),
-              })}
+              {t(
+                keys.income,
+                {
+                  value: incomeAmount.decimalPlaces(DEFAULT_DECIMAL_PLACES),
+                  apy: poolAPY.decimalPlaces(2),
+                  fee: commission,
+                  token: t(keys.tokens.main),
+                },
+                true,
+              )}
             </Info>
           )}
 
@@ -212,10 +237,10 @@ export function DelegateForm({
       ) : (
         <GuardButton
           disabled={isSubmitDisabled}
-          loading={isSetAllowanceLoading}
+          loading={isApproveLoading}
           size="large"
           sx={theme => ({ marginTop: theme.spacing(6) })}
-          onClick={() => setAllowance({ amount: convertedAmount, poolAddress })}
+          onClick={() => handleApprove()}
         >
           {t(keys.approve)}
         </GuardButton>

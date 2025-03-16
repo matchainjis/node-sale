@@ -1,9 +1,9 @@
 import { ReadProvider } from 'modules/api';
-import { getIPFSData } from 'modules/api/methods/getIPFSData';
+import { IPFS_PREFIX } from 'modules/api/const';
 import { getPoolOwnershipContract } from 'modules/api/methods/getPoolOwnershipContract';
+import { getPublicIPFSData } from 'modules/api/methods/getPublicIPFSData';
 import { IPoolMeta, IPoolRawMeta } from 'modules/pool/types';
-
-const IPFS_PREFIX = 'ipfs://';
+import { getIPFSHash } from 'modules/pool/utils';
 
 function convertRawIpfsToHttpLink(rawLink: string): string {
   return rawLink.startsWith(IPFS_PREFIX)
@@ -21,8 +21,17 @@ export async function getPoolMeta(
     .tokenURI(poolAddress)
     .call();
 
-  const id = metaRawURI.replace(IPFS_PREFIX, '');
-  const metaJson = await getIPFSData<IPoolRawMeta>(id);
+  const hash = getIPFSHash(metaRawURI);
+
+  const metaJson = await (async () => {
+    /* try {
+      const res = await getPinataIPFSData<IPoolRawMeta>(hash);
+
+      return res;
+    } catch { */
+    return getPublicIPFSData<IPoolRawMeta>(hash);
+    // }
+  })();
 
   return {
     address: poolAddress,

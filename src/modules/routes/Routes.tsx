@@ -5,6 +5,7 @@ import {
   DashboardRoutesConfig,
   getDashboardRoutes,
 } from 'modules/dashboard/Routes';
+import { getOwnerPanelRoutes } from 'modules/ownerPanel/Routes';
 
 import { RootRoute } from './RootRoute';
 
@@ -13,6 +14,8 @@ export function Routes(): ReactElement {
     <Switch>
       <Route element={<RootRoute />} path="/">
         {getDashboardRoutes()}
+
+        {getOwnerPanelRoutes()}
 
         <Route
           element={

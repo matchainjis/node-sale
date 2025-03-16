@@ -32,7 +32,7 @@ export const {
 
         return { data: result ?? null };
       },
-      providesTags: [cacheTags.meta],
+      providesTags: [cacheTags.poolsMeta],
     }),
   }),
 });

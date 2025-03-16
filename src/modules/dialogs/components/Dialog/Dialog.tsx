@@ -39,7 +39,6 @@ export function Dialog({
           paper: cx(classes.paper, propsClasses?.paper),
         }}
         className={cx(classes.root, props.className)}
-        onClose={onClose}
       >
         {title && (
           <Typography textAlign="center" textTransform="uppercase" variant="h2">

@@ -22,7 +22,7 @@ export const useIntersectionObserver = (
         setTimeout(() => {
           callback();
           setIsLoading(false);
-        }, 500);
+        }, 1000);
       }
     }, options);
 

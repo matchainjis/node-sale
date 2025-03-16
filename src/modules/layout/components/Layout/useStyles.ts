@@ -9,6 +9,7 @@ export const useStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('md')]: {
       paddingTop: `calc(${theme.spacing(4)} + ${HEADER_HEIGHT}px)`,
+      paddingBottom: theme.spacing(7.5),
     },
   },
 

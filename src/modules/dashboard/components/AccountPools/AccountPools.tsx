@@ -1,7 +1,9 @@
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { useConnection } from 'modules/auth/hooks/useConnection';
+import { BorderedPaper } from 'modules/common/components/BorderedPaper';
 import { ClaimTable } from 'modules/dashboard/components/ClaimTable';
 import { ClaimTabStatus } from 'modules/dashboard/components/ClaimTabStatus';
 import { PoolTable } from 'modules/dashboard/components/PoolTable';
@@ -33,7 +35,10 @@ export function AccountPools(): ReactElement | null {
   const { data: accountPools, isLoading: isAccountPoolsLoading } =
     useGetAccountPoolsQuery(
       { addresses: pools },
-      { skip: !isConnected || !pools.length },
+      {
+        skip: !isConnected || !pools.length,
+        selectFromResult: mapDataToUndefinedIfSkip,
+      },
     );
 
   const isDelegateTabLoading = isAccountPoolsLoading || isPoolsLoading;
@@ -85,7 +90,7 @@ export function AccountPools(): ReactElement | null {
   }
 
   return (
-    <Paper className={classes.root}>
+    <BorderedPaper className={classes.root}>
       <div className={classes.content}>
         <div className={classes.tabs}>
           {!!accountPoolAddresses?.length && (
@@ -131,6 +136,6 @@ export function AccountPools(): ReactElement | null {
           <ClaimTable poolAddresses={pools} />
         )}
       </div>
-    </Paper>
+    </BorderedPaper>
   );
 }

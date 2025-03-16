@@ -15,6 +15,7 @@ export function Info({ children, className }: IInfoProps): ReactElement {
         backgroundColor: alpha(theme.palette.common.black, 0.05),
         borderRadius: '12px',
         padding: theme.spacing(3, 4),
+        color: alpha(theme.palette.common.black, 0.6),
       })}
       variant="body2"
     >

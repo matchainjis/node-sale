@@ -1,17 +1,20 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   className?: string;
   children: ReactNode;
-  style?: CSSProperties;
+  onClick?: () => void;
 }
 
-export function TableRow({ children, className, style }: Props): JSX.Element {
+export function TableRow({ children, className, onClick }: Props): JSX.Element {
   const { classes, cx } = useStyles();
 
   return (
-    <tr className={cx(classes.root, className)} style={style}>
+    <tr
+      className={cx(classes.root, !!onClick && classes.clickable, className)}
+      onClick={onClick}
+    >
       {children}
     </tr>
   );
@@ -27,5 +30,8 @@ const useStyles = makeStyles()(theme => ({
       padding: theme.spacing(4, 4.5),
       borderRadius: 16,
     },
+  },
+  clickable: {
+    cursor: 'pointer',
   },
 }));

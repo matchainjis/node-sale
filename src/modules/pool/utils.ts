@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 
+import { IPFS_PREFIX } from 'modules/api/const';
 import { HUNDRED, ONE } from 'modules/common/const';
 
 interface ICalculateAPYParams {
@@ -17,4 +18,10 @@ export function calculateAPY({
   return tokensYear.multipliedBy(
     ONE.minus(fee.div(HUNDRED)).div(totalStakedAmount),
   );
+}
+
+export function getIPFSHash(withPrefixLink: string): string {
+  return withPrefixLink.startsWith(IPFS_PREFIX)
+    ? withPrefixLink.replace(IPFS_PREFIX, '')
+    : withPrefixLink;
 }

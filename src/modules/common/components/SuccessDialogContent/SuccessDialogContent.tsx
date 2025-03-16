@@ -7,7 +7,7 @@ import { useStyles } from './useStyles';
 
 interface ISuccessDialogContentProps {
   title: string;
-  description: string;
+  description?: string;
   buttonLabel?: string;
   onClose: () => void;
   image: string;
@@ -34,9 +34,11 @@ export function SuccessDialogContent({
         {title}
       </Typography>
 
-      <Typography textAlign="center" variant="body1">
-        {description}
-      </Typography>
+      {description && (
+        <Typography textAlign="center" variant="body1">
+          {description}
+        </Typography>
+      )}
 
       <div className={classes.content}>
         <img alt="" className={classes.image} src={image} />

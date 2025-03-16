@@ -22,16 +22,36 @@ export function getMuiFilledInput(theme: Theme): Components['MuiFilledInput'] {
           [`&:focus, &.${filledInputClasses.focused}`]: {
             boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
           },
+
+          [`&.${filledInputClasses.multiline}`]: {
+            padding: theme.spacing(0),
+          },
+
+          [`&.${filledInputClasses.multiline} textarea`]: {
+            lineHeight: 'normal',
+            padding: theme.spacing(3, 4, 5),
+          },
+
+          [`&.${filledInputClasses.disabled}`]: {
+            pointerEvents: 'none',
+          },
         },
       },
 
       input: {
-        fontSize: 36,
-        fontWeight: 600,
-        padding: theme.spacing(15, 4.5, 4),
+        fontSize: 13,
+        fontWeight: 500,
+        padding: theme.spacing(3, 4),
+        height: 18,
 
         '&&&&::placeholder': {
           opacity: '0.2 !important',
+        },
+
+        [`&.${filledInputClasses.disabled}`]: {
+          color: alpha(theme.palette.text.primary, 0.5),
+          webkitTextFillColor: 'none',
+          '-webkit-text-fill-color': 'inherit',
         },
       },
     },

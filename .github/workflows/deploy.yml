@@ -9,9 +9,6 @@ on:
         description: Target
         required: true
         options:
-          - STAGE # https://www-stage.ankr.com/staking/
-          - PROD # https://www.ankr.com/staking/
-          - TESTNET # https://testnet.ankr.com/staking/
           - BS5 # https://bs-5-stage.dccn.ankr.com/staking/
           - BS6 # https://bs-6-stage.dccn.ankr.com/staking/
           - BS7 # https://bs-7-stage.dccn.ankr.com/staking/

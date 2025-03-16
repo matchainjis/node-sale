@@ -3,6 +3,7 @@ import { Control, FieldValues, Path, useController } from 'react-hook-form';
 import {} from '@mui/material';
 import BigNumber from 'bignumber.js';
 
+import { useStyles } from 'modules/common/components/NumberTextField/useStyles';
 import {
   ITextFieldProps,
   TextField,
@@ -20,7 +21,7 @@ interface INumberTextFieldProps<T extends FieldValues> extends ITextFieldProps {
   ) => void;
 }
 
-const regExp = /^(\d*\.{0,1}\d{0,18}$)/;
+export const numberRegExp = /^(\d*\.{0,1}\d{0,18}$)/;
 
 function NumberTextFieldComponent<T extends FieldValues>(
   {
@@ -35,6 +36,7 @@ function NumberTextFieldComponent<T extends FieldValues>(
   }: INumberTextFieldProps<T>,
   ref: ForwardedRef<HTMLInputElement>,
 ) {
+  const { classes } = useStyles();
   const validateAmount = useValidateNumber({
     balance,
     max: balance,
@@ -56,7 +58,7 @@ function NumberTextFieldComponent<T extends FieldValues>(
       return;
     }
 
-    if (regExp.exec(value)) {
+    if (numberRegExp.exec(value)) {
       if (onChange) {
         onChange(event);
       }
@@ -73,6 +75,11 @@ function NumberTextFieldComponent<T extends FieldValues>(
       value={field.value}
       onChange={handleChange}
       {...props}
+      InputProps={{
+        classes: {
+          input: classes.input,
+        },
+      }}
     />
   );
 }

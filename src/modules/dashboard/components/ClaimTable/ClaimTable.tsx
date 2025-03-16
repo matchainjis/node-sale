@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { useConnection } from 'modules/auth/hooks/useConnection';
 import { Table } from 'modules/common/components/Table';
 import { useTranslation } from 'modules/i18n';
@@ -22,7 +23,10 @@ export function ClaimTable({ poolAddresses }: IClaimTableProps): ReactElement {
 
   const { isConnected } = useConnection();
   const { data: pendingUnstakes = EMPTY_POOL_UNSTAKES } =
-    useGetPendingUnstakesQuery({ poolAddresses }, { skip: !isConnected });
+    useGetPendingUnstakesQuery(
+      { poolAddresses },
+      { skip: !isConnected, selectFromResult: mapDataToUndefinedIfSkip },
+    );
 
   return (
     <div>

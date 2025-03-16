@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { getWeightedAverage } from 'modules/common/utils/getWeightedAverage';
 import { useGetTotalStaked } from 'modules/pool/hooks/useGetTotalStaked';
 import { calculateAPY } from 'modules/pool/utils';
@@ -27,7 +28,10 @@ export function useGetPoolAPYs(): IUseGetPoolAPYsResult {
       {
         addresses: poolsAddresses,
       },
-      { skip: poolsAddresses.length === 0 },
+      {
+        skip: poolsAddresses.length === 0,
+        selectFromResult: mapDataToUndefinedIfSkip,
+      },
     );
 
   const { totalStakedAmount, isLoading } = useGetTotalStaked();

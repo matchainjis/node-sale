@@ -11,32 +11,27 @@ interface ISetDelegateAllowanceArgs {
   amount: BigNumber;
 }
 
-export const { useSetDelegateAllowanceAllowanceMutation } = api.injectEndpoints(
-  {
-    endpoints: build => ({
-      setDelegateAllowanceAllowance: build.mutation<
-        boolean,
-        ISetDelegateAllowanceArgs
-      >({
-        queryFn: queryFnNotifyWrapper<ISetDelegateAllowanceArgs, void, boolean>(
-          async ({ amount, poolAddress }) => {
-            const writeProvider = await getWriteProvider();
+export const { useSetDelegateAllowanceMutation } = api.injectEndpoints({
+  endpoints: build => ({
+    setDelegateAllowance: build.mutation<boolean, ISetDelegateAllowanceArgs>({
+      queryFn: queryFnNotifyWrapper<ISetDelegateAllowanceArgs, void, boolean>(
+        async ({ amount, poolAddress }) => {
+          const writeProvider = await getWriteProvider();
 
-            const result = await setAllowance(writeProvider, {
-              spender: poolAddress,
-              tokenAddress: MAIN_TOKEN_ADDRESS,
-              amount,
-            });
+          const result = await setAllowance(writeProvider, {
+            spender: poolAddress,
+            tokenAddress: MAIN_TOKEN_ADDRESS,
+            amount,
+          });
 
-            void (await result.receiptPromise);
+          void (await result.receiptPromise);
 
-            return {
-              data: true,
-            };
-          },
-        ),
-        invalidatesTags: [cacheTags.allowance],
-      }),
+          return {
+            data: true,
+          };
+        },
+      ),
+      invalidatesTags: [cacheTags.allowance],
     }),
-  },
-);
+  }),
+});

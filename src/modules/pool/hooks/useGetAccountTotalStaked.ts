@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { ZERO } from 'modules/common/const';
 import {
   EMPTY_ACCOUNT_POOLS,
@@ -28,6 +29,7 @@ export function useGetAccountTotalStaked(): IUseGetAccountTotalStakedResult {
       },
       {
         skip: poolsAddresses.length === 0,
+        selectFromResult: mapDataToUndefinedIfSkip,
       },
     );
 

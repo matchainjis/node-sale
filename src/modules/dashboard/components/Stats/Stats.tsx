@@ -1,9 +1,11 @@
 import { ReactElement, useMemo } from 'react';
-import { Chip, Paper, Skeleton, Typography } from '@mui/material';
+import { Chip, Skeleton, Typography } from '@mui/material';
 import BigNumber from 'bignumber.js';
 
 import { useGetMainTokenBalanceQuery } from 'modules/api/actions/getMainTokenBalance';
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { useConnection } from 'modules/auth/hooks/useConnection';
+import { BorderedPaper } from 'modules/common/components/BorderedPaper';
 import {
   BUY_MORE_LINK,
   DEFAULT_DECIMAL_PLACES,
@@ -31,7 +33,10 @@ export function Stats(): ReactElement {
   const {
     data: mainTokenBalance = ZERO,
     isLoading: isMainTokenBalanceLoading,
-  } = useGetMainTokenBalanceQuery(undefined, { skip: !isConnected });
+  } = useGetMainTokenBalanceQuery(undefined, {
+    skip: !isConnected,
+    selectFromResult: mapDataToUndefinedIfSkip,
+  });
 
   const {
     totalStakedAmount: accountTotalStakedAmount,
@@ -46,7 +51,7 @@ export function Stats(): ReactElement {
 
   return (
     <div className={classes.root}>
-      <Paper className={cx(classes.card, classes.myStakedCard)}>
+      <BorderedPaper className={cx(classes.card, classes.myStakedCard)}>
         <Typography alignSelf="center" fontWeight={600} variant="body1">
           {t(keys.myStaked, { token: t(keys.tokens.main) })}
         </Typography>
@@ -70,9 +75,9 @@ export function Stats(): ReactElement {
             </Typography>
           )}
         </div>
-      </Paper>
+      </BorderedPaper>
 
-      <Paper className={cx(classes.card, classes.commonCard)}>
+      <BorderedPaper className={cx(classes.card, classes.commonCard)}>
         <Typography className={classes.label} variant="body1">
           {t(keys.annualEarning, { token: t(keys.tokens.main) })}
         </Typography>
@@ -99,9 +104,9 @@ export function Stats(): ReactElement {
             </Typography>
           )}
         </div>
-      </Paper>
+      </BorderedPaper>
 
-      <Paper className={cx(classes.card, classes.commonCard)}>
+      <BorderedPaper className={cx(classes.card, classes.commonCard)}>
         <Typography className={classes.label} variant="body1">
           {t(keys.availableToStake, { token: t(keys.tokens.main) })}
         </Typography>
@@ -134,7 +139,7 @@ export function Stats(): ReactElement {
             </Typography>
           )}
         </div>
-      </Paper>
+      </BorderedPaper>
     </div>
   );
 }

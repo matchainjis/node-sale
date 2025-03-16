@@ -12,9 +12,11 @@ import { translation } from './translation';
 
 interface IDelegateContentProps {
   poolAddress: string;
+  formTitle?: string;
 }
 
 export function DelegateContent({
+  formTitle,
   poolAddress,
 }: IDelegateContentProps): ReactElement | null {
   const { t, keys } = useTranslation(translation);
@@ -43,6 +45,7 @@ export function DelegateContent({
     <DelegateForm
       isSubmitLoading={isLoading}
       poolAddress={poolAddress}
+      title={formTitle}
       onSubmit={({ amount }) =>
         delegate({
           amount,

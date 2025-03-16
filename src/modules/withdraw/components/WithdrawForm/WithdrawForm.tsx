@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import BigNumber from 'bignumber.js';
 
 import { UNSTAKE_PERIOD_DAYS } from 'modules/api/const';
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { GuardButton } from 'modules/auth/components/GuardButton';
 import { useConnection } from 'modules/auth/hooks/useConnection';
 import { Info } from 'modules/common/components/Info';
@@ -16,6 +17,8 @@ import {
   mergeTranslations,
   useTranslation,
 } from 'modules/i18n';
+import { useGetAvailableSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
+import { useGetIsOwnerPoolQuery } from 'modules/ownerPanel/actions/isPoolOwner';
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
 import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
@@ -51,9 +54,41 @@ export function WithdrawForm({
     { address: poolAddress },
     {
       skip: !isConnected,
+      selectFromResult: mapDataToUndefinedIfSkip,
     },
   );
-  const balance = accountPool?.stakedAmount || ZERO;
+  const { data: isOwner = false } = useGetIsOwnerPoolQuery(
+    { poolAddress },
+    {
+      skip: !isConnected,
+      selectFromResult: mapDataToUndefinedIfSkip,
+    },
+  );
+  const { data: availableSelfStakeAmount = ZERO } =
+    useGetAvailableSelfStakeAmountQuery(
+      { poolAddress },
+      {
+        skip: !isConnected || !isOwner,
+        selectFromResult: mapDataToUndefinedIfSkip,
+      },
+    );
+
+  const balance = useMemo(() => {
+    if (!isConnected) {
+      return ZERO;
+    }
+
+    if (isOwner) {
+      return availableSelfStakeAmount;
+    }
+
+    return accountPool?.stakedAmount || ZERO;
+  }, [
+    accountPool?.stakedAmount,
+    availableSelfStakeAmount,
+    isConnected,
+    isOwner,
+  ]);
 
   const {
     control,

@@ -66,7 +66,7 @@ export function getMuiTypography(theme: Theme): Components['MuiTypography'] {
       },
 
       h5: {
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: 600,
       },
 

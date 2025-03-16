@@ -32,7 +32,9 @@ export function PoolCell({
       <div className={classes.root}>
         <div className={classes.pool}>
           {icon ? (
-            <img alt="" className={classes.icon} src={icon} />
+            <div className={classes.icon}>
+              <img alt="" className={classes.image} src={icon} />
+            </div>
           ) : (
             <Skeleton className={classes.icon} height={30} />
           )}

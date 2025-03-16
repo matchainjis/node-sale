@@ -10,7 +10,10 @@ interface IGetAllowanceParams {
   poolAddress: string;
 }
 
-export const { useGetDelegateAllowanceQuery } = api.injectEndpoints({
+export const {
+  useGetDelegateAllowanceQuery,
+  useLazyGetDelegateAllowanceQuery,
+} = api.injectEndpoints({
   endpoints: build => ({
     getDelegateAllowance: build.query<IGetAllowanceResult, IGetAllowanceParams>(
       {

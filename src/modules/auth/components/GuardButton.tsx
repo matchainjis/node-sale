@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 
 import { chainId } from 'modules/api/chainIDs';
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { useGetChainIdQuery } from 'modules/auth/actions/getChainId';
 import { useSwitchNetworkMutation } from 'modules/auth/actions/switchNetwork';
 import { useConnection } from 'modules/auth/hooks/useConnection';
@@ -19,6 +20,7 @@ export function GuardButton(props: ILoadingButtonProps): ReactElement {
 
   const { data: currentChainId } = useGetChainIdQuery(undefined, {
     skip: !isConnected,
+    selectFromResult: mapDataToUndefinedIfSkip,
   });
   const [switchNetwork, { isLoading }] = useSwitchNetworkMutation();
 

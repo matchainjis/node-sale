@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 
+import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { ZERO } from 'modules/common/const';
 import {
   EMPTY_POOL_ADDRESSES,
@@ -22,7 +23,10 @@ export function useGetTotalStaked(): IUseGetTotalStakedResult {
       {
         addresses: poolsAddresses,
       },
-      { skip: poolsAddresses.length === 0 },
+      {
+        skip: poolsAddresses.length === 0,
+        selectFromResult: mapDataToUndefinedIfSkip,
+      },
     );
 
   return {

@@ -39,7 +39,10 @@ export function ActionsCell({
             color="primary"
             size="medium"
             variant="outlined"
-            onClick={() => onDelegateOpen(poolAddress)}
+            onClick={event => {
+              event.stopPropagation();
+              onDelegateOpen(poolAddress);
+            }}
           >
             {t(keys.delegate)}
           </Button>
@@ -54,7 +57,10 @@ export function ActionsCell({
                 className={classes.squareButton}
                 color="secondary"
                 variant="outlined"
-                onClick={() => onWithdrawOpen(poolAddress)}
+                onClick={event => {
+                  event.stopPropagation();
+                  onWithdrawOpen(poolAddress);
+                }}
               >
                 {isMd ? t(keys.withdraw) : <MinusIcon />}
               </Button>
@@ -69,7 +75,10 @@ export function ActionsCell({
                 className={classes.squareButton}
                 color="primary"
                 variant="outlined"
-                onClick={() => onDelegateOpen(poolAddress)}
+                onClick={event => {
+                  event.stopPropagation();
+                  onDelegateOpen(poolAddress);
+                }}
               >
                 {isMd ? t(keys.delegateMore) : <PlusIcon />}
               </Button>
