@@ -1,7 +1,7 @@
 import { ReactElement, useMemo } from 'react';
 import { EWalletId, getWalletIcon } from '@ankr.com/provider';
 import { getWalletName } from '@ankr.com/provider/src/utils/getWalletName';
-import { Box, Button, ButtonProps, Tooltip, Typography } from '@mui/material';
+import { Box, ButtonProps, Tooltip, Typography } from '@mui/material';
 
 import { useStyles } from './useStyles';
 
@@ -42,13 +42,11 @@ export function ConnectButton({
 
   return (
     <Tooltip arrow title={disabled && tooltip ? tooltip : ''}>
-      <Button
+      <button
         {...props}
         {...buttonProps}
         className={cx(classes.root, props.className)}
-        color="info"
         disabled={disabled}
-        variant="outlined"
       >
         <Box
           className={classes.iconContainer}
@@ -60,7 +58,7 @@ export function ConnectButton({
         <Typography fontWeight={600} variant="body1">
           {getWalletName(walletId)}
         </Typography>
-      </Button>
+      </button>
     </Tooltip>
   );
 }

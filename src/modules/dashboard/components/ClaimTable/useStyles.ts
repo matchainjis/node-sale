@@ -26,4 +26,8 @@ export const useStyles = makeStyles()(theme => ({
       },
     },
   },
+
+  hidePoolName: {
+    gridTemplateColumns: '400px 1fr 1fr',
+  },
 }));

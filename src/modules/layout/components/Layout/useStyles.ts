@@ -6,6 +6,7 @@ export const useStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column-reverse',
+    paddingBottom: theme.spacing(20),
 
     [theme.breakpoints.down('md')]: {
       paddingTop: `calc(${theme.spacing(4)} + ${HEADER_HEIGHT}px)`,

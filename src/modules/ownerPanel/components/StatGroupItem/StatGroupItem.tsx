@@ -6,7 +6,7 @@ import { globalTranslation, useTranslation } from 'modules/i18n';
 
 import { useStyles } from './useStyles';
 
-interface IStatContentProps {
+interface IStatGroupItemProps {
   label: string;
   amount?: BigNumber;
   className?: string;
@@ -14,13 +14,13 @@ interface IStatContentProps {
   buttonSlot?: ReactElement;
 }
 
-export function StatContent({
+export function StatGroupItem({
   label,
   amount,
   className,
   variant = 'h2',
   buttonSlot,
-}: IStatContentProps): ReactElement {
+}: IStatGroupItemProps): ReactElement {
   const { t, keys } = useTranslation(globalTranslation);
   const { classes, cx } = useStyles();
 

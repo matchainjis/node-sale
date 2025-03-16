@@ -13,7 +13,7 @@ interface IPoolInfoProps {
   type?: 'delegate' | 'withdraw';
 }
 
-export function PoolInfo({
+export function PoolInfoColumn({
   name,
   image,
   address,

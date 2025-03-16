@@ -41,4 +41,14 @@ export const useStyles = makeStyles()(theme => ({
       },
     },
   },
+
+  active: {
+    background: `linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
+    '-webkit-background-clip': 'text',
+    '-webkit-text-fill-color': 'transparent',
+
+    '&:after': {
+      background: `linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,
+    },
+  },
 }));

@@ -1,4 +1,5 @@
-import { Translation } from '../hooks/useTranslation';
+import { Translation } from 'modules/i18n/hooks/useTranslation';
+
 import { Locale } from '../locales';
 
 export function mergeTranslations<

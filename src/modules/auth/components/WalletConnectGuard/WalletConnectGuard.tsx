@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
 import { Button } from '@mui/material';
 
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+
 import { KnownDialogs, useDialog } from '../../../dialogs';
-import { useTranslation } from '../../../i18n/hooks/useTranslation';
 import { useConnection } from '../../hooks/useConnection';
 import { translation } from './translation';
 

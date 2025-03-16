@@ -1,4 +1,5 @@
-import { ReactElement } from 'react';
+import { ReactElement, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 
 import { Table } from 'modules/common/components/Table';
@@ -7,15 +8,12 @@ import { ActionsCell } from 'modules/dashboard/components/ActionsCell';
 import { AmountCell } from 'modules/dashboard/components/AmountCell';
 import { PoolCell } from 'modules/dashboard/components/PoolCell';
 import { StatusCell } from 'modules/dashboard/components/StatusCell';
-import {
-  globalTranslation,
-  mergeTranslations,
-  useTranslation,
-} from 'modules/i18n';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import { getAccountPoolEndpoint } from 'modules/pool/actions/getAccountPool';
 import { getPoolEndpoint } from 'modules/pool/actions/getPool';
 import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
 import { useGetPoolAPYs } from 'modules/pool/hooks/useGetPoolAPYs';
+import { PoolRoutesConfig } from 'modules/pool/Routes';
 
 import { translation } from '../PoolTable/translation';
 import { useStyles } from './useStyles';
@@ -27,8 +25,6 @@ interface IDelegateTableProps {
   onPoolClick?: (poolAddress: string) => void;
 }
 
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
-
 export function PoolRow({
   poolAddress,
   className,
@@ -36,8 +32,10 @@ export function PoolRow({
   onPoolClick,
 }: IDelegateTableProps): ReactElement | null {
   const { classes, theme } = useStyles();
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
   const isMd = useMediaQuery(theme.breakpoints.down('md'));
+
+  const navigate = useNavigate();
 
   const { data: pool } = getPoolEndpoint.useQueryState({
     address: poolAddress,
@@ -54,6 +52,14 @@ export function PoolRow({
   const { poolAPYs } = useGetPoolAPYs();
   const apy = poolAPYs[poolAddress] ?? ZERO;
 
+  const onPoolRowClick = useCallback(() => {
+    if (onPoolClick) {
+      onPoolClick(poolAddress);
+    } else {
+      navigate(PoolRoutesConfig.pool.generatePath(poolAddress));
+    }
+  }, [navigate, onPoolClick, poolAddress]);
+
   if (!pool) {
     return null;
   }
@@ -68,16 +74,7 @@ export function PoolRow({
   const stakedAmount = accountPool?.stakedAmount ?? ZERO;
 
   return (
-    <Table.Row
-      className={className}
-      onClick={
-        onPoolClick
-          ? () => {
-              onPoolClick?.(poolAddress);
-            }
-          : undefined
-      }
-    >
+    <Table.Row className={className} onClick={onPoolRowClick}>
       <PoolCell
         address={address}
         className={classes.poolCell}

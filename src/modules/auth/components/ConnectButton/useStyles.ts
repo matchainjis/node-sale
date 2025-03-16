@@ -8,6 +8,7 @@ export const useStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(1),
+    cursor: 'pointer',
 
     width: 136,
     height: 136,
@@ -21,6 +22,10 @@ export const useStyles = makeStyles()(theme => ({
       border: `1px solid ${theme.palette.divider}`,
       backgroundColor: theme.palette.background.default,
     },
+  },
+  disabled: {
+    pointerEvents: 'none',
+    opacity: 0.7,
   },
   iconContainer: {
     display: 'flex',
