@@ -16,6 +16,19 @@ export type UseTranslationResult<
   locale: Locale;
 };
 
+const convertVariablesToString = (
+  variables?: unknown,
+): Record<string, unknown> => {
+  if (typeof variables !== 'object' || variables === null) return {};
+
+  return Object.fromEntries(
+    Object.entries(variables).map(([key, value]) => [
+      key,
+      value instanceof Object && 'toString' in value ? String(value) : value, // ✅ Fix BigNumber & Objects
+    ]),
+  );
+};
+
 export function useTranslation<
   T extends Record<string, string | Record<string, string>>,
 >(data: Translation<T>): UseTranslationResult<T> {
@@ -32,14 +45,10 @@ export function useTranslation<
 
   const t = useCallback(
     (key: string, variables?: unknown, withHTML?: boolean): string => {
-      const safeVariables =
-        typeof variables === 'object' && variables !== null
-          ? (variables as Record<string, unknown>)
-          : {};
-
+      const safeVariables = convertVariablesToString(variables);
       const translated = i18nT(key, {
         ...safeVariables,
-        interpolation: { escapeValue: false },
+        interpolation: { escapeValue: !withHTML },
       });
 
       if (withHTML) {

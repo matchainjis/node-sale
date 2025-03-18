@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
 import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
@@ -29,8 +30,13 @@ export function useGetTotalStaked(): IUseGetTotalStakedResult {
       },
     );
 
+  const totalStakedAmount = useMemo(
+    () => pools.reduce((acc, { tvl }) => acc.plus(tvl), ZERO),
+    [pools],
+  );
+
   return {
-    totalStakedAmount: pools.reduce((acc, { tvl }) => acc.plus(tvl), ZERO),
+    totalStakedAmount,
     isLoading: isPoolsAddressesLoading || isPoolsLoading,
   };
 }
