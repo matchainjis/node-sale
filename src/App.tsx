@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import createCache from '@emotion/cache';
@@ -8,7 +9,7 @@ import BigNumber from 'bignumber.js';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
-import { useIsInitializedLocale } from 'modules/i18n';
+import i18n from 'modules/i18n/i18n';
 import { CustomizedSnackbarProvider } from 'modules/notifications';
 import { Routes } from 'modules/routes/Routes';
 import { store } from 'modules/store';
@@ -31,8 +32,6 @@ BigNumber.config({
 });
 
 function App(): JSX.Element {
-  const isInitialized = useIsInitializedLocale();
-
   const muiCache = createCache({
     key: 'mui',
   });
@@ -41,15 +40,17 @@ function App(): JSX.Element {
     <Provider store={store}>
       <CacheProvider value={muiCache}>
         <ThemeProvider theme={mainTheme}>
-          <BrowserRouter basename={packageJson.homepage}>
-            <QueryParamProvider adapter={ReactRouter6Adapter}>
-              <CssBaseline />
+          <I18nextProvider i18n={i18n}>
+            <BrowserRouter basename={packageJson.homepage}>
+              <QueryParamProvider adapter={ReactRouter6Adapter}>
+                <CssBaseline />
 
-              <CustomizedSnackbarProvider />
+                <CustomizedSnackbarProvider />
 
-              {isInitialized && <Routes />}
-            </QueryParamProvider>
-          </BrowserRouter>
+                <Routes />
+              </QueryParamProvider>
+            </BrowserRouter>
+          </I18nextProvider>
         </ThemeProvider>
       </CacheProvider>
     </Provider>

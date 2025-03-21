@@ -8,19 +8,23 @@ export const useStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(1),
+    cursor: 'pointer',
 
     width: 136,
     height: 136,
     borderRadius: 16,
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
-    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-    transition: 'all 0.2s ease',
+    boxShadow: `0 0 0 1px ${alpha(theme.palette.divider, 0.1)}`,
 
     '&&:hover': {
-      border: `1px solid ${theme.palette.divider}`,
+      boxShadow: `0 0 0 1px ${theme.palette.divider}`,
       backgroundColor: theme.palette.background.default,
     },
+  },
+  disabled: {
+    pointerEvents: 'none',
+    opacity: 0.7,
   },
   iconContainer: {
     display: 'flex',

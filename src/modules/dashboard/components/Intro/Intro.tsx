@@ -10,8 +10,7 @@ import {
 import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
 import { ZERO } from 'modules/common/const';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
-import { globalTranslation, mergeTranslations } from 'modules/i18n';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import {
   EMPTY_POOL_ADDRESSES,
   useGetPoolAddressesQuery,
@@ -22,13 +21,11 @@ import { useGetPoolAPYs } from 'modules/pool/hooks/useGetPoolAPYs';
 import { translation } from './translation';
 import { useStyles } from './useStyles';
 
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
-
 export function Intro(): ReactElement {
   const { classes, theme } = useStyles();
   const isMd = useMediaQuery(theme.breakpoints.down('md'));
 
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
 
   const { onOpen } = useDialog(KnownDialogs.connect);
 

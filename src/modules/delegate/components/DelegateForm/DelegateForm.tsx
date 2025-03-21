@@ -21,14 +21,10 @@ import {
 import { useLazyGetDelegateAllowanceQuery } from 'modules/delegate/actions/getDelegateAllowance';
 import { useGetDelegateFeeQuery } from 'modules/delegate/actions/getDelegateFee';
 import { useSetDelegateAllowanceMutation } from 'modules/delegate/actions/setDelegateAllowance';
-import {
-  globalTranslation,
-  mergeTranslations,
-  useTranslation,
-} from 'modules/i18n';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
 import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
-import { PoolInfo } from 'modules/pool/components/PoolInfo/PoolInfo';
+import { PoolInfoColumn } from 'modules/pool/components/PoolInfoColumn/PoolInfoColumn';
 import { useGetPoolAPYs } from 'modules/pool/hooks/useGetPoolAPYs';
 
 import { translation } from './translation';
@@ -45,15 +41,13 @@ interface IFormValues extends FieldValues {
   amount: string;
 }
 
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
-
 export function DelegateForm({
   title,
   poolAddress,
   onSubmit,
   isSubmitLoading,
 }: IDelegateContentProps): ReactElement | null {
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
   const { classes } = useStyles();
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
   const { data: poolMeta } = useGetPoolMetaQuery({ address: poolAddress });
@@ -164,7 +158,7 @@ export function DelegateForm({
         {title || t(keys.delegate)}
       </Typography>
 
-      <PoolInfo
+      <PoolInfoColumn
         address={poolAddress}
         image={poolMeta?.image}
         name={poolMeta?.name}

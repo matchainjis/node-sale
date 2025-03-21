@@ -43,12 +43,13 @@ export function ConnectButton({
   return (
     <Tooltip arrow title={disabled && tooltip ? tooltip : ''}>
       <Button
+        color="info"
+        type="button"
+        variant="outlined"
         {...props}
         {...buttonProps}
         className={cx(classes.root, props.className)}
-        color="info"
         disabled={disabled}
-        variant="outlined"
       >
         <Box
           className={classes.iconContainer}

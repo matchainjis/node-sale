@@ -10,11 +10,7 @@ import { Info } from 'modules/common/components/Info';
 import { numberRegExp } from 'modules/common/components/NumberTextField';
 import { ZERO } from 'modules/common/const';
 import { useValidateNumber } from 'modules/common/hooks/useValidateNumber';
-import {
-  globalTranslation,
-  mergeTranslations,
-  useTranslation,
-} from 'modules/i18n';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import { useGetCommissionInfoQuery } from 'modules/ownerPanel/actions/getCommissionInfo';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
 import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
@@ -35,8 +31,6 @@ interface IEditPoolContentProps {
   isSubmitLoading: boolean;
 }
 
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
-
 const MAX_SYMBOLS = 250;
 
 export function EditPoolForm({
@@ -44,7 +38,7 @@ export function EditPoolForm({
   onSubmit,
   isSubmitLoading,
 }: IEditPoolContentProps): ReactElement | null {
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
   const { classes } = useStyles();
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
   const { data: poolMeta } = useGetPoolMetaQuery({ address: poolAddress });

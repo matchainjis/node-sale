@@ -41,6 +41,7 @@ export function TextField({
                   <Box fontWeight={500}>
                     {t(keys.common.balance)}
 
+                    {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
                     {`: ${t(keys.unit.tokenValue, { value: balance.toFormat(), token: t(keys.tokens.main) })}`}
                   </Box>
                 )}

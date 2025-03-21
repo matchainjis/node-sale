@@ -12,8 +12,7 @@ import {
   HUNDRED,
   ZERO,
 } from 'modules/common/const';
-import { globalTranslation, mergeTranslations } from 'modules/i18n';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import { useGetAccountTotalStaked } from 'modules/pool/hooks/useGetAccountTotalStaked';
 import { useGetPoolAPYs } from 'modules/pool/hooks/useGetPoolAPYs';
 
@@ -23,11 +22,9 @@ import { useStyles } from './useStyles';
 
 const USD_AMOUNT_MOCK: BigNumber | undefined = undefined;
 
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
-
 export function Stats(): ReactElement {
   const { classes, cx } = useStyles();
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
 
   const { isConnected } = useConnection();
   const {

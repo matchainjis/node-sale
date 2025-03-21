@@ -8,7 +8,7 @@ import { ZERO } from 'modules/common/const';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { useTranslation } from 'modules/i18n';
 import { useGetAvailableSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
-import { StatContent } from 'modules/ownerPanel/components/StatContent/StatContent';
+import { StatGroupItem } from 'modules/ownerPanel/components/StatGroupItem';
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
 
@@ -16,10 +16,14 @@ import { translation } from './translation';
 import { useStyles } from './useStyles';
 
 interface IStatsProps {
+  showDialogButtons?: boolean;
   poolAddress: string;
 }
 
-export function Stats({ poolAddress }: IStatsProps): ReactElement {
+export function Stats({
+  poolAddress,
+  showDialogButtons = false,
+}: IStatsProps): ReactElement {
   const { t, keys } = useTranslation(translation);
   const { classes, cx } = useStyles();
 
@@ -50,29 +54,31 @@ export function Stats({ poolAddress }: IStatsProps): ReactElement {
   return (
     <div className={classes.root}>
       <Paper className={classes.tvlStat}>
-        <StatContent amount={pool?.tvl} label={t(keys.tvl)} />
+        <StatGroupItem amount={pool?.tvl} label={t(keys.tvl)} />
       </Paper>
 
       <Paper className={classes.multiStats}>
-        <StatContent
+        <StatGroupItem
           amount={accountPool?.stakedAmount}
           className={classes.topSubStat}
           label={t(keys.selfStaked)}
         />
 
-        <StatContent
+        <StatGroupItem
           amount={lockedAmount}
           className={classes.subStat}
           label={t(keys.locked)}
           variant="h5"
         />
 
-        <StatContent
+        <StatGroupItem
           amount={selfStakeAmount}
           buttonSlot={
-            <TextButton onClick={() => onOpen(poolAddress)}>
-              {t(keys.withdraw)}
-            </TextButton>
+            showDialogButtons ? (
+              <TextButton onClick={() => onOpen(poolAddress)}>
+                {t(keys.withdraw)}
+              </TextButton>
+            ) : undefined
           }
           className={classes.subStat}
           label={t(keys.unlocked)}
@@ -81,7 +87,7 @@ export function Stats({ poolAddress }: IStatsProps): ReactElement {
       </Paper>
 
       <Paper className={classes.multiStats}>
-        <StatContent
+        <StatGroupItem
           amount={delegationsAmount}
           className={classes.topSubStat}
           label={t(keys.delegations)}

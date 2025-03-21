@@ -10,6 +10,7 @@ export const globalTranslation = {
       of: 'of',
       from: 'from',
       ok: 'ok',
+      back: 'Back',
       connect: 'Connect',
       disconnect: 'Disconnect',
       connectWallet: 'Connect Wallet',

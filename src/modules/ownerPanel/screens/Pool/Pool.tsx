@@ -10,9 +10,9 @@ import { useGetIsOwnerPoolQuery } from 'modules/ownerPanel/actions/isPoolOwner';
 import { AddSelfStakeDialog } from 'modules/ownerPanel/components/AddSelfstakeDialog/AddSelfStakeDialog';
 import { EditPoolDialog } from 'modules/ownerPanel/components/EditPoolDialog';
 import { OwnerPanelRoutesConfig } from 'modules/ownerPanel/Routes';
+import { Stats } from 'modules/pool/components/Stats';
 
 import { Details } from '../../components/Details';
-import { Stats } from '../../components/Stats';
 import { useStyles } from './useStyles';
 
 export function Pool(): ReactElement {
@@ -38,7 +38,7 @@ export function Pool(): ReactElement {
     <Container className={classes.root}>
       <Details className={classes.details} poolAddress={poolAddress} />
 
-      <Stats poolAddress={poolAddress} />
+      <Stats showDialogButtons poolAddress={poolAddress} />
 
       <EditPoolDialog />
 

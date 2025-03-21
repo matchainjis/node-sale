@@ -110,6 +110,39 @@ export const getMuiButton = (theme: Theme): Components['MuiButton'] => ({
         },
 
         {
+          props: { variant: 'outlined', color: 'info' },
+          style: {
+            background: 'transparent',
+            border: 'none',
+            boxShadow: `0 0 0 1px ${theme.palette.text.primary}`,
+            color: theme.palette.text.primary,
+            position: 'relative',
+
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.light,
+              border: 'none',
+
+              '&:before': {
+                background: `linear-gradient(90deg, ${alpha('#FFF', 0.2)}, transparent 100%)`,
+              },
+            },
+
+            '&:active, &:focus, &.Mui-disabled': {
+              border: 'none',
+              backgroundColor: theme.palette.secondary.dark,
+
+              '&:before': {
+                background: `linear-gradient(90deg, transparent, ${alpha('#FFF', 0.2)})`,
+              },
+            },
+
+            '&.Mui-disabled': {
+              color: alpha(theme.palette.secondary.contrastText, 0.2),
+            },
+          },
+        },
+
+        {
           props: { variant: 'contained', color: 'primary' },
           style: {
             background: `linear-gradient(98deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main} 100%)`,

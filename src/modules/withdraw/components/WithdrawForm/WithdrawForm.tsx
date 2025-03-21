@@ -12,17 +12,13 @@ import { NumberTextField } from 'modules/common/components/NumberTextField';
 import { Summary } from 'modules/common/components/Summary';
 import { SummaryItem } from 'modules/common/components/SummaryItem';
 import { BUY_MORE_LINK, ZERO } from 'modules/common/const';
-import {
-  globalTranslation,
-  mergeTranslations,
-  useTranslation,
-} from 'modules/i18n';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import { useGetAvailableSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
 import { useGetIsOwnerPoolQuery } from 'modules/ownerPanel/actions/isPoolOwner';
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
 import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
-import { PoolInfo } from 'modules/pool/components/PoolInfo/PoolInfo';
+import { PoolInfoColumn } from 'modules/pool/components/PoolInfoColumn/PoolInfoColumn';
 
 import { translation } from './translation';
 import { useStyles } from './useStyles';
@@ -37,14 +33,12 @@ interface IFormValues extends FieldValues {
   amount: string;
 }
 
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
-
 export function WithdrawForm({
   poolAddress,
   onSubmit,
   isSubmitLoading,
 }: IWithdrawContentProps): ReactElement | null {
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
   const { classes } = useStyles();
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
   const { data: poolMeta } = useGetPoolMetaQuery({ address: poolAddress });
@@ -138,7 +132,7 @@ export function WithdrawForm({
         {t(keys.withdraw)}
       </Typography>
 
-      <PoolInfo
+      <PoolInfoColumn
         address={poolAddress}
         image={poolMeta?.image}
         name={poolMeta?.name}

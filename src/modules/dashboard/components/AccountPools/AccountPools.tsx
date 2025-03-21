@@ -9,7 +9,10 @@ import { ClaimTabStatus } from 'modules/dashboard/components/ClaimTabStatus';
 import { PoolTable } from 'modules/dashboard/components/PoolTable';
 import { useTranslation } from 'modules/i18n';
 import { useGetAccountPoolsQuery } from 'modules/pool/actions/getAccountPools';
-import { useGetPendingUnstakesQuery } from 'modules/pool/actions/getPendingUnstakes';
+import {
+  EMPTY_POOL_UNSTAKES,
+  useGetPendingUnstakesQuery,
+} from 'modules/pool/actions/getPendingUnstakes';
 import { useGetPoolAddressesQuery } from 'modules/pool/actions/getPoolAddresses';
 
 import { translation } from './translation';
@@ -43,13 +46,18 @@ export function AccountPools(): ReactElement | null {
 
   const isDelegateTabLoading = isAccountPoolsLoading || isPoolsLoading;
 
-  const { data: poolUnstakes, isLoading: isPoolUnstakesLoading } =
-    useGetPendingUnstakesQuery(
-      {
-        poolAddresses: pools,
-      },
-      { skip: !isConnected || !pools.length },
-    );
+  const {
+    data: poolUnstakes = EMPTY_POOL_UNSTAKES,
+    isLoading: isPoolUnstakesLoading,
+  } = useGetPendingUnstakesQuery(
+    {
+      poolAddresses: pools,
+    },
+    {
+      skip: !isConnected || !pools.length,
+      selectFromResult: mapDataToUndefinedIfSkip,
+    },
+  );
 
   const accountPoolAddresses = useMemo(
     () => accountPools?.map(({ address }) => address) ?? [],
@@ -133,7 +141,7 @@ export function AccountPools(): ReactElement | null {
         )}
 
         {activeTab === AccountPoolsTab.WITHDRAWALS && (
-          <ClaimTable poolAddresses={pools} />
+          <ClaimTable pendingUnstakes={poolUnstakes} />
         )}
       </div>
     </BorderedPaper>

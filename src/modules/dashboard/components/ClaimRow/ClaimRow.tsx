@@ -6,11 +6,7 @@ import { DEFAULT_LONG_DECIMAL_PLACES } from 'modules/common/const';
 import { AmountCell } from 'modules/dashboard/components/AmountCell';
 import { PoolCell } from 'modules/dashboard/components/PoolCell';
 import { UnlockClaimCell } from 'modules/dashboard/components/UnlockClaimCell/UnlockClaimCell';
-import {
-  globalTranslation,
-  mergeTranslations,
-  useTranslation,
-} from 'modules/i18n';
+import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
 import { getPoolEndpoint } from 'modules/pool/actions/getPool';
 import { useGetPoolMetaQuery } from 'modules/pool/actions/getPoolMeta';
 import { IPoolUnstake } from 'modules/pool/types';
@@ -20,17 +16,17 @@ import { useStyles } from './useStyles';
 
 interface IDelegateTableProps {
   className?: string;
+  isHidePoolName?: boolean;
   poolUnstake: IPoolUnstake;
 }
-
-const mergedTranslation = mergeTranslations(globalTranslation, translation);
 
 export function ClaimRow({
   className,
   poolUnstake,
+  isHidePoolName,
 }: IDelegateTableProps): ReactElement | null {
   const { classes } = useStyles();
-  const { t, keys } = useTranslation(mergedTranslation);
+  const { t, keys } = useGlobalTranslation(translation);
 
   const { data: pool } = getPoolEndpoint.useQueryState({
     address: poolUnstake.poolAddress,
@@ -46,12 +42,14 @@ export function ClaimRow({
 
   return (
     <Table.Row className={className}>
-      <PoolCell
-        address={poolUnstake.poolAddress}
-        className={classes.poolCell}
-        icon={poolMeta?.image}
-        poolName={poolMeta?.name}
-      />
+      {!isHidePoolName && (
+        <PoolCell
+          address={poolUnstake.poolAddress}
+          className={classes.poolCell}
+          icon={poolMeta?.image}
+          poolName={poolMeta?.name}
+        />
+      )}
 
       <AmountCell
         amount={t(keys.unit.tokenValue, {
