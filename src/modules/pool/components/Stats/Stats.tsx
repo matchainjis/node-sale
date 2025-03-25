@@ -7,10 +7,11 @@ import { TextButton } from 'modules/common/components/TextButton/TextButton';
 import { ZERO } from 'modules/common/const';
 import { KnownDialogs, useDialog } from 'modules/dialogs';
 import { useTranslation } from 'modules/i18n';
-import { useGetAvailableSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
+import { useGetOwnerSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
 import { StatGroupItem } from 'modules/ownerPanel/components/StatGroupItem';
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
+import { useGetPoolOwnerQuery } from 'modules/pool/actions/getPoolOwner';
 
 import { translation } from './translation';
 import { useStyles } from './useStyles';
@@ -31,24 +32,29 @@ export function Stats({
 
   const { isConnected } = useConnection();
   const { data: pool } = useGetPoolQuery({ address: poolAddress });
-  const { data: accountPool } = useGetAccountPoolQuery(
-    { address: poolAddress },
-    { skip: !isConnected, selectFromResult: mapDataToUndefinedIfSkip },
+
+  const { data: ownerAddress = '' } = useGetPoolOwnerQuery({
+    address: poolAddress,
+  });
+
+  const { data: accountOwnerPool } = useGetAccountPoolQuery(
+    { address: poolAddress, accountAddress: ownerAddress },
+    { skip: !ownerAddress, selectFromResult: mapDataToUndefinedIfSkip },
   );
 
-  const { data: selfStakeAmount } = useGetAvailableSelfStakeAmountQuery(
+  const { data: selfStakeAmount } = useGetOwnerSelfStakeAmountQuery(
     { poolAddress },
     { skip: !isConnected, selectFromResult: mapDataToUndefinedIfSkip },
   );
 
   const lockedAmount = useMemo(
-    () => accountPool?.stakedAmount?.minus(selfStakeAmount ?? ZERO),
-    [accountPool, selfStakeAmount],
+    () => accountOwnerPool?.stakedAmount?.minus(selfStakeAmount ?? ZERO),
+    [accountOwnerPool, selfStakeAmount],
   );
 
   const delegationsAmount = useMemo(
-    () => pool?.tvl?.minus(selfStakeAmount ?? ZERO),
-    [pool?.tvl, selfStakeAmount],
+    () => pool?.tvl?.minus(accountOwnerPool?.stakedAmount ?? ZERO),
+    [accountOwnerPool?.stakedAmount, pool?.tvl],
   );
 
   return (
@@ -59,7 +65,7 @@ export function Stats({
 
       <Paper className={classes.multiStats}>
         <StatGroupItem
-          amount={accountPool?.stakedAmount}
+          amount={accountOwnerPool?.stakedAmount}
           className={classes.topSubStat}
           label={t(keys.selfStaked)}
         />

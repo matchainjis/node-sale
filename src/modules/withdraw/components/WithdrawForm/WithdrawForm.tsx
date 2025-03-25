@@ -13,7 +13,7 @@ import { Summary } from 'modules/common/components/Summary';
 import { SummaryItem } from 'modules/common/components/SummaryItem';
 import { BUY_MORE_LINK, ZERO } from 'modules/common/const';
 import { useGlobalTranslation } from 'modules/i18n/hooks/useGlobalTranslation';
-import { useGetAvailableSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
+import { useGetOwnerSelfStakeAmountQuery } from 'modules/ownerPanel/actions/getSelfStakeAmount';
 import { useGetIsOwnerPoolQuery } from 'modules/ownerPanel/actions/isPoolOwner';
 import { useGetAccountPoolQuery } from 'modules/pool/actions/getAccountPool';
 import { useGetPoolQuery } from 'modules/pool/actions/getPool';
@@ -58,14 +58,13 @@ export function WithdrawForm({
       selectFromResult: mapDataToUndefinedIfSkip,
     },
   );
-  const { data: availableSelfStakeAmount = ZERO } =
-    useGetAvailableSelfStakeAmountQuery(
-      { poolAddress },
-      {
-        skip: !isConnected || !isOwner,
-        selectFromResult: mapDataToUndefinedIfSkip,
-      },
-    );
+  const { data: ownerSelfStakeAmount = ZERO } = useGetOwnerSelfStakeAmountQuery(
+    { poolAddress },
+    {
+      skip: !isConnected || !isOwner,
+      selectFromResult: mapDataToUndefinedIfSkip,
+    },
+  );
 
   const balance = useMemo(() => {
     if (!isConnected) {
@@ -73,16 +72,11 @@ export function WithdrawForm({
     }
 
     if (isOwner) {
-      return availableSelfStakeAmount;
+      return ownerSelfStakeAmount;
     }
 
     return accountPool?.stakedAmount || ZERO;
-  }, [
-    accountPool?.stakedAmount,
-    availableSelfStakeAmount,
-    isConnected,
-    isOwner,
-  ]);
+  }, [accountPool?.stakedAmount, ownerSelfStakeAmount, isConnected, isOwner]);
 
   const {
     control,

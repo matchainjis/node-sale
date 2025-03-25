@@ -2,31 +2,31 @@ import BigNumber from 'bignumber.js';
 
 import { api, cacheTags, getReadProvider } from 'modules/api';
 import { chainId } from 'modules/api/chainIDs';
-import { getAvailableSelfStakeAmount } from 'modules/ownerPanel/methods/getSelfStakedAmount';
+import { getOwnerSelfStakeAmount } from 'modules/ownerPanel/methods/getOwnerSelfStakeAmount';
 
-interface IGetAvailableSelfStakeAmountArgs {
+interface IGetOwnerSelfStakeAmountArgs {
   poolAddress: string;
 }
 
 export const {
-  useGetAvailableSelfStakeAmountQuery,
-  endpoints: { getAvailableSelfStakeAmount: getSelfStakedAmountEndpoint },
+  useGetOwnerSelfStakeAmountQuery,
+  endpoints: { getOwnerSelfStakeAmount: getSelfStakedAmountEndpoint },
 } = api.injectEndpoints({
   endpoints: build => ({
-    getAvailableSelfStakeAmount: build.query<
+    getOwnerSelfStakeAmount: build.query<
       BigNumber,
-      IGetAvailableSelfStakeAmountArgs
+      IGetOwnerSelfStakeAmountArgs
     >({
       queryFn: async ({ poolAddress }) => {
         const readProvider = await getReadProvider(chainId);
 
         return {
-          data: await getAvailableSelfStakeAmount(readProvider, {
+          data: await getOwnerSelfStakeAmount(readProvider, {
             poolAddress,
           }),
         };
       },
-      providesTags: [cacheTags.account, cacheTags.pools],
+      providesTags: [cacheTags.pools],
     }),
   }),
 });

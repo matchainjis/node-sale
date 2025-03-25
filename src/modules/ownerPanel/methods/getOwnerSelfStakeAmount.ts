@@ -4,7 +4,7 @@ import { ReadProvider } from 'modules/api';
 import { getStakingPoolContract } from 'modules/api/methods/getStakingPoolContract';
 import { convertFromWei } from 'modules/api/utils';
 
-export async function getAvailableSelfStakeAmount(
+export async function getOwnerSelfStakeAmount(
   provider: ReadProvider,
   { poolAddress }: { poolAddress: string },
 ): Promise<BigNumber> {

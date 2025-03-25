@@ -1,10 +1,6 @@
 import { useMemo } from 'react';
 
-import {
-  EMPTY_POOL_ADDRESSES,
-  useGetPoolAddressesQuery,
-} from 'modules/pool/actions/getPoolAddresses';
-import { EMPTY_POOLS, useGetPoolsQuery } from 'modules/pool/actions/getPools';
+import { useGetSortedPools } from 'modules/pool/hooks/useGetSortedPools';
 
 interface IGetRankResult {
   rank: number;
@@ -13,12 +9,7 @@ interface IGetRankResult {
 }
 
 export function useGetRank(poolAddress: string): IGetRankResult {
-  const {
-    data: addresses = EMPTY_POOL_ADDRESSES,
-    isLoading: isPoolAddressesLoading,
-  } = useGetPoolAddressesQuery();
-  const { data: pools = EMPTY_POOLS, isLoading: isPoolsLoading } =
-    useGetPoolsQuery({ addresses });
+  const { pools, isLoading } = useGetSortedPools();
 
   const rank = useMemo(() => {
     if (!pools.length) {
@@ -43,6 +34,6 @@ export function useGetRank(poolAddress: string): IGetRankResult {
   return {
     rank,
     totalRanks: pools.length,
-    isLoading: isPoolAddressesLoading || isPoolsLoading,
+    isLoading,
   };
 }

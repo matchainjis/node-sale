@@ -6,6 +6,7 @@ import { IAccountPool } from '../types';
 
 interface IGetAccountPoolArgs {
   address: string;
+  accountAddress?: string;
 }
 
 export const {
@@ -14,14 +15,14 @@ export const {
 } = api.injectEndpoints({
   endpoints: build => ({
     getAccountPool: build.query<IAccountPool | null, IGetAccountPoolArgs>({
-      queryFn: async ({ address }) => {
+      queryFn: async ({ address, accountAddress }) => {
         const readProvider = await getReadProvider(chainId);
         const writeProvider = await getWriteProvider();
 
         return {
           data: await getAccountPool(readProvider, {
             poolAddress: address,
-            accountAddress: writeProvider.currentAccount,
+            accountAddress: accountAddress || writeProvider.currentAccount,
           }),
         };
       },

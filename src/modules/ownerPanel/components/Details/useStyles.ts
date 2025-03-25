@@ -16,6 +16,7 @@ export const useStyles = makeStyles()(theme => ({
   icon: {
     width: 90,
     height: 90,
+    borderRadius: '50%',
     overflow: 'hidden',
   },
 

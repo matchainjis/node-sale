@@ -1,16 +1,12 @@
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { mapDataToUndefinedIfSkip } from 'modules/api/utils';
+import { POOLS_LIMIT } from 'modules/api/const';
+import { ZERO } from 'modules/common/const';
 import { getWeightedAverage } from 'modules/common/utils/getWeightedAverage';
+import { useGetSortedPools } from 'modules/pool/hooks/useGetSortedPools';
 import { useGetTotalStaked } from 'modules/pool/hooks/useGetTotalStaked';
 import { calculateAPY } from 'modules/pool/utils';
-
-import {
-  EMPTY_POOL_ADDRESSES,
-  useGetPoolAddressesQuery,
-} from '../actions/getPoolAddresses';
-import { EMPTY_POOLS, useGetPoolsQuery } from '../actions/getPools';
 
 interface IUseGetPoolAPYsResult {
   avgAPY: BigNumber;
@@ -18,44 +14,47 @@ interface IUseGetPoolAPYsResult {
   isLoading: boolean;
 }
 
-export function useGetPoolAPYs(): IUseGetPoolAPYsResult {
-  const {
-    data: poolsAddresses = EMPTY_POOL_ADDRESSES,
-    isLoading: isPoolsAddressesLoading,
-  } = useGetPoolAddressesQuery();
-  const { data: pools = EMPTY_POOLS, isLoading: isPoolsLoading } =
-    useGetPoolsQuery(
-      {
-        addresses: poolsAddresses,
-      },
-      {
-        skip: poolsAddresses.length === 0,
-        selectFromResult: mapDataToUndefinedIfSkip,
-      },
-    );
+export function useGetPoolAPYs(
+  poolsLimit: number = POOLS_LIMIT,
+): IUseGetPoolAPYsResult {
+  const { pools, isLoading: isPoolsLoading } = useGetSortedPools();
+  const { totalStakedAmount, isLoading: isTotalStakedLoading } =
+    useGetTotalStaked(poolsLimit);
 
-  const { totalStakedAmount, isLoading } = useGetTotalStaked();
   const poolAPYs = useMemo(
     () =>
       pools.reduce<Record<string, BigNumber>>(
-        (acc, { address, commission }) => ({
-          ...acc,
-          [address]: calculateAPY({ totalStakedAmount, fee: commission }),
-        }),
+        (acc, { address, commission }, i) => {
+          if (i >= poolsLimit) {
+            return {
+              ...acc,
+              [address]: ZERO,
+            };
+          }
+
+          return {
+            ...acc,
+            [address]: calculateAPY({ totalStakedAmount, fee: commission }),
+          };
+        },
         {},
       ),
-    [pools, totalStakedAmount],
+    [pools, poolsLimit, totalStakedAmount],
   );
 
   const avgAPY = useMemo(
     () =>
-      getWeightedAverage(pools.map(pool => [poolAPYs[pool.address], pool.tvl])),
-    [pools, poolAPYs],
+      getWeightedAverage(
+        pools
+          .slice(0, poolsLimit)
+          .map(pool => [poolAPYs[pool.address], pool.tvl]),
+      ),
+    [pools, poolsLimit, poolAPYs],
   );
 
   return {
     avgAPY,
     poolAPYs,
-    isLoading: isPoolsAddressesLoading || isPoolsLoading || isLoading,
+    isLoading: isPoolsLoading || isTotalStakedLoading,
   };
 }

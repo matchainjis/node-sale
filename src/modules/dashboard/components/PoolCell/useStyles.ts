@@ -20,6 +20,7 @@ export const useStyles = makeStyles()(theme => ({
     width: 30,
     minWidth: 30,
     height: 30,
+    borderRadius: '50%',
     overflow: 'hidden',
   },
 
