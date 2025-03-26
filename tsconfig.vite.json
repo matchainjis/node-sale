@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "esModuleInterop": false,
+    "baseUrl": "src",
+    "sourceMap": true
+  },
+  "include": [
+    "vite.config.mts", "package.json"]
+}
